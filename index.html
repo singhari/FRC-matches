@@ -4,9 +4,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>replit</title>
+  <title>7159 - USCASDSDGAM2</title>
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:bold,medium">
+  <link rel="stylesheet" href="fonts/stylesheet.css" type="text/css" charset="utf-8" />
+
   <link href="style.css" rel="stylesheet" type="text/css" />
   
 
@@ -14,18 +16,91 @@
 </head>
 
 <body>
-  <div class="w3-display-container w3-black" style="height: 125px;">
-    <img class="w3-display-left" src="images/powerplay_logo_crop.png" style="max-height: 70%;margin-left:2%;">
-    <div class="w3-display-middle" style="text-align: center;">
-      <b style="font-size: 35px;">7159 - Robo Ravens</b>
-      <br/>
-      <b style="font-size: 25px;">San Diego Gauss Meet #2, Pacific Ridge</b>
+  <div id="container">
+    <div id = "top-bar" class="w3-display-container w3-black" >
+      <img class="w3-display-left" src="images/powerplay_logo_crop.png" style="max-height: 70%;margin-left:2rem;">
+      <div class="w3-display-middle" style="text-align: center;">
+        <b style="font-size: 35px;">7159 - Robo Ravens</b>
+        <br/>
+        <b style="font-size: 25px;">San Diego Gauss Meet #2, Pacific Ridge</b>
+      </div>
+      <img class="w3-display-right" src="images/ftc_logo.png" style="max-height: 65%;margin-right:2rem;">
     </div>
-    <img class="w3-display-right" src="images/ftc_logo.png" style="max-height: 65%;margin-right:2%;">
-  </div>
-  chrisTWOpher goes here
-  <script src="script.js"></script>
 
+    <div id="middle-content">
+      <div id="match_list">
+        <div class = "match-header">
+          <div>Qualification 3</div>
+          <div class="divider"></div>
+          <div>Completed</div>
+        </div>
+        <div class="match-stat">
+          <div class="dark-ftc-red rank">13</div>
+          <div class="divider"></div>
+          <div class="dark-ftc-red team">14338</div>
+          <div class="divider"></div>
+          <div class="dark-ftc-red rank">14</div>
+          <div class="divider"></div>
+          <div class="dark-ftc-red team">22316</div>
+          <div class="divider"></div>
+          <div class="light-ftc-red score">48</div>
+          <div class="divider"></div>
+          <div class="light-ftc-blue score">46</div>
+          <div class="divider"></div>
+          <div class="dark-ftc-blue rank">11</div>
+          <div class="divider"></div>
+          <div class="dark-ftc-blue team">7159</div>
+          <div class="divider"></div>
+          <div class="dark-ftc-blue rank">8</div>
+          <div class="divider"></div>
+          <div class="dark-ftc-blue team">5015</div>
+        </div>
+        <div class = "match-header">
+          <div>Qualification 6</div>
+          <div class="divider"></div>
+          <div>Completed</div>
+        </div>
+        <div class="match-stat">
+          <div class="dark-ftc-red rank">8</div>
+          <div class="divider"></div>
+          <div class="dark-ftc-red team">5015</div>
+          <div class="divider"></div>
+          <div class="dark-ftc-red rank">5</div>
+          <div class="divider"></div>
+          <div class="dark-ftc-red team">14535</div>
+          <div class="divider"></div>
+          <div class="light-ftc-red score">141</div>
+          <div class="divider"></div>
+          <div class="light-ftc-blue score">26</div>
+          <div class="divider"></div>
+          <div class="dark-ftc-blue rank">2</div>
+          <div class="divider"></div>
+          <div class="dark-ftc-blue team">14235</div>
+          <div class="divider"></div>
+          <div class="dark-ftc-blue rank">11</div>
+          <div class="divider"></div>
+          <div class="dark-ftc-blue team">7159</div>
+        </div>
+      </div> 
+    </div>
+  
+
+    <script src="script.js"></script>
+    <div class="w3-display-container w3-black" id="bottom-bar">
+      <div class="w3-display-middle" id="counter-container">
+        <div id="left">
+          <span id="that-one">Qualification 21</span>
+          <span>Rounds until On Deck:</span>
+        </div>
+        <div id="counter">
+          <div>1</div>
+        </div>
+        <div id="alliance" class= "light-ftc-blue">
+          <div>BLUE</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
