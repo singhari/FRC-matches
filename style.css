@@ -13,7 +13,7 @@ html, body {
 }
 #middle-content{
   flex: 1 1 auto;
-
+  overflow: hidden;
 }
 #bottom-bar {
   flex: 0 0 9.5rem;
@@ -23,7 +23,7 @@ html, body {
   overflow: hidden;
   position: relative;
   height: 80%;
-  background: lightgray;
+  background: #999999;
   border: 3px solid black;
   left: 2rem;
   top: 2rem;
@@ -31,7 +31,16 @@ html, body {
   width:60rem;
   font-size: 33px;
   text-align: center;
+  line-height: 1.4;
 }
+
+#scroll-container-a{
+  position: relative;
+}
+#scroll-container-b{
+  position: relative;
+}
+
 .match-header{
   display: flex;
   justify-content: space-between;
@@ -41,11 +50,12 @@ html, body {
 }
 .match-header div{
   flex: 1 1 0px;
-  
+
 }
 .match-header .divider{
   flex: 0 0 2px;
   background: black;
+
 }
 
 .match-stat{
@@ -53,20 +63,24 @@ html, body {
   justify-content: center;
   border-bottom: 2px solid white;
   color: white;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.2em;
 }
 .match-stat .rank{
   flex: 1.2 1.2 0px;
+
 }
 .match-stat .team{
   flex: 2.8 2.8 0px;
+
 }
 .match-stat .score{
   flex: 2 2 0px;
+
 }
 .match-stat .divider{
   flex: 0 0 2px;
   background: white;
+
 }
 
 #counter-container{
@@ -79,6 +93,7 @@ html, body {
   flex-direction: row;
  overflow: hidden;
 }
+
 #counter-container #left{
   flex: 1 1 auto;
   display: flex;
@@ -86,15 +101,13 @@ html, body {
   color: black;
 
 }
+
 #counter-container #left span{
   flex: 1 1 auto;
   font-size: 38px;
   width: 100%;
   padding-left: 1rem;
   padding-right: 1rem;
-}
-#that-one{
-  border-bottom: 3px solid black;
 }
 
 #counter-container #counter{
@@ -123,8 +136,11 @@ html, body {
   background: #ed1c25;
 }
 .dark-ftc-blue{
-  background: #004980
+  background: #004980;
 }
 .dark-ftc-red{
-  background: #a9161d
+  background: #a9161d;
+}
+.very-light-gray{
+  background: #CCCCCC;
 }
