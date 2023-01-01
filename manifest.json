@@ -1,0 +1,12 @@
+{
+    "manifest_version": 3,
+    "name": "FTC Matches",
+    "description": "hahalol",
+    "version": "0.1",
+    "action":{
+        "default_popup": "extension.html"
+    },
+    "host_permissions": [
+        "https://ftc-api.firstinspires.org/v2.0/*"
+    ] 
+}
