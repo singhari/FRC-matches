@@ -4,7 +4,7 @@ import { twoTeamMatch } from '/match.js';
 var list = document.getElementById("match_list");
 var scrollA = document.getElementById("scroll-container-a");
 var scrollB = document.getElementById("scroll-container-b");
-var matches = {};
+const matches = [];
 
 //all these functions are async cause i'm too lazy to do async properly (and async is genuinely confusing as well) 
 //the entire program currently assumes that A. the API provides the matches in the order that they would be played B. the schedule api and matches api are in the same order.
