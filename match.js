@@ -6,8 +6,8 @@ import {createDivWithClassAndText, gimmeADivider} from '/helpfulHTML.js';
 // }
 
 export class twoTeamMatch {
-  matchNo;
-  title;
+  matchNumber;
+  description;
   status;
   redTeamA;
   redTeamB;
@@ -17,9 +17,9 @@ export class twoTeamMatch {
   blueScore;
   elementA;
   elementB;
-  constructor(matchNo, title, status, redTeamA, redTeamB, redScore, blueTeamA, blueTeamB, blueScore){
-    this.matchNo = matchNo
-    this.title = title;
+  constructor(matchNo, description, status, redTeamA, redTeamB, redScore, blueTeamA, blueTeamB, blueScore){
+    this.matchNumber = matchNo;
+    this.description = description;
     this.status = status;
     this.redTeamA = redTeamA;
     this.redTeamB = redTeamB;
@@ -36,9 +36,6 @@ export class twoTeamMatch {
     this.elementA.children[1].children[8].textContent=this.redScore;
     this.elementA.children[1].children[10].textContent=this.blueScore;
   }
-  setStatus(status){
-    this.status = status;
-  }
   //takes in the key-pair list for rankings and applies it
   updateRankings(rankList){
     this.elementA.children[1].children[0].textContent=rankList[this.elementA.children[1].children[2].textContent];
@@ -53,7 +50,8 @@ export class twoTeamMatch {
   //sets that upper right hand box
   setStatus(status){
     this.status = status;
-    this.elementA.children[0].children[3].textContent=this.status;
+    this.elementA.children[0].children[2].textContent=this.status;
+    this.elementB.children[0].children[2].textContent=this.status;
   }
 
   getElementA(){
@@ -69,7 +67,7 @@ export class twoTeamMatch {
     //boring white header
     var header = document.createElement("div");
     header.className = "match-header";
-    header.appendChild(createDivWithClassAndText("", this.title));
+    header.appendChild(createDivWithClassAndText("", this.description));
     header.appendChild(gimmeADivider());
     header.appendChild(createDivWithClassAndText("", this.status))
     outerDiv.appendChild(header);

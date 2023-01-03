@@ -1,0 +1,214 @@
+{
+    "schedule": [
+      {
+        "description": "Qualification 3",
+        "field": "1",
+        "tournamentLevel": "QUALIFICATION",
+        "startTime": "2022-12-11T09:29:00",
+        "series": 0,
+        "matchNumber": 3,
+        "teams": [
+          {
+            "teamNumber": 14338,
+            "station": "Red1",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 22316,
+            "station": "Red2",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 7159,
+            "station": "Blue1",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 5015,
+            "station": "Blue2",
+            "surrogate": false,
+            "noShow": false
+          }
+        ],
+        "modifiedOn": "2022-12-11T22:06:17.944"
+      },
+      {
+        "description": "Qualification 6",
+        "field": "1",
+        "tournamentLevel": "QUALIFICATION",
+        "startTime": "2022-12-11T09:50:00",
+        "series": 0,
+        "matchNumber": 6,
+        "teams": [
+          {
+            "teamNumber": 5015,
+            "station": "Red1",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 14535,
+            "station": "Red2",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 14235,
+            "station": "Blue1",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 7159,
+            "station": "Blue2",
+            "surrogate": false,
+            "noShow": false
+          }
+        ],
+        "modifiedOn": "2022-12-11T22:06:17.85"
+      },
+      {
+        "description": "Qualification 9",
+        "field": "1",
+        "tournamentLevel": "QUALIFICATION",
+        "startTime": "2022-12-11T10:11:00",
+        "series": 0,
+        "matchNumber": 9,
+        "teams": [
+          {
+            "teamNumber": 7159,
+            "station": "Red1",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 3848,
+            "station": "Red2",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 14235,
+            "station": "Blue1",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 22321,
+            "station": "Blue2",
+            "surrogate": false,
+            "noShow": false
+          }
+        ],
+        "modifiedOn": "2022-12-11T22:06:17.962"
+      },
+      {
+        "description": "Qualification 13",
+        "field": "1",
+        "tournamentLevel": "QUALIFICATION",
+        "startTime": "2022-12-11T10:39:00",
+        "series": 0,
+        "matchNumber": 13,
+        "teams": [
+          {
+            "teamNumber": 18263,
+            "station": "Red1",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 9049,
+            "station": "Red2",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 22321,
+            "station": "Blue1",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 7159,
+            "station": "Blue2",
+            "surrogate": false,
+            "noShow": false
+          }
+        ],
+        "modifiedOn": "2022-12-11T22:06:17.931"
+      },
+      {
+        "description": "Qualification 17",
+        "field": "1",
+        "tournamentLevel": "QUALIFICATION",
+        "startTime": "2022-12-11T11:07:00",
+        "series": 0,
+        "matchNumber": 17,
+        "teams": [
+          {
+            "teamNumber": 14338,
+            "station": "Red1",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 7159,
+            "station": "Red2",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 9049,
+            "station": "Blue1",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 6226,
+            "station": "Blue2",
+            "surrogate": false,
+            "noShow": false
+          }
+        ],
+        "modifiedOn": "2022-12-11T22:06:17.895"
+      },
+      {
+        "description": "Qualification 21",
+        "field": "1",
+        "tournamentLevel": "QUALIFICATION",
+        "startTime": "2022-12-11T11:35:00",
+        "series": 0,
+        "matchNumber": 21,
+        "teams": [
+          {
+            "teamNumber": 7159,
+            "station": "Red1",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 9049,
+            "station": "Red2",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 3848,
+            "station": "Blue1",
+            "surrogate": false,
+            "noShow": false
+          },
+          {
+            "teamNumber": 18568,
+            "station": "Blue2",
+            "surrogate": false,
+            "noShow": false
+          }
+        ],
+        "modifiedOn": "2022-12-11T22:06:17.868"
+      }
+    ]
+  }

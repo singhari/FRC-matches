@@ -1,9 +1,14 @@
 import { createDivWithClassAndText } from '/helpfulHTML.js';
 import { twoTeamMatch } from '/match.js';
 
-var list = document.getElementById("match_list");
-var scrollA = document.getElementById("scroll-container-a");
-var scrollB = document.getElementById("scroll-container-b");
+const list = document.getElementById("match_list");
+const scrollA = document.getElementById("scroll-container-a");
+const scrollB = document.getElementById("scroll-container-b");
+const statusTextContainer = document.getElementById("left");
+console.log(statusTextContainer);
+const counter =  document.getElementById("counter");
+const allianceIndicator = document.getElementById("alliance");
+var nextMatch = -1;
 const matches = [];
 
 //all these functions are async cause i'm too lazy to do async properly (and async is genuinely confusing as well) 
@@ -12,33 +17,42 @@ const matches = [];
 //init: make all the elements for the matches, get scores, get ranks, etc etc
 async function initialize() {
   var rankPairs = await ranksToKeyPairs();
-  var response = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/USCASDSDGAM2?teamNumber=7159" })
-  var response2 = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/USCASDSDGAM2?teamNumber=7159" })
-  for (let index = 0; index < response.schedule.length; index++) {
-    const element = response.schedule[index];
-    const element2 = response2.matches[index];
-    let test;
-    if(response2.matches.length > index){
+  var schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/USCASDSDGAM2?teamNumber=7159" })
+  // var results = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/USCASDSDGAM2?teamNumber=7159" })
+  var results = await fetch("/testTeamResults.json").then(response => response.json());
+
+  for (let index = 0; index < schedule.schedule.length; index++) {
+    const scheduleElement = schedule.schedule[index];
+    const resultElement = results.matches[index];
+    let siteElement;
+    if(results.matches.length > index){
       console.log("score");
-      test = new twoTeamMatch(element.matchNumber, element.description, element.startTime,
-        element.teams[0].teamNumber, element.teams[1].teamNumber, element2.scoreRedFinal, //red
-        element.teams[2].teamNumber, element.teams[3].teamNumber, element2.scoreBlueFinal); //blue
+      siteElement = new twoTeamMatch(scheduleElement.matchNumber, scheduleElement.description, "Completed",
+        scheduleElement.teams[0].teamNumber, scheduleElement.teams[1].teamNumber, resultElement.scoreRedFinal, //red
+        scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, resultElement.scoreBlueFinal); //blue
+    }else if(results.matches.length == index){
+      console.log("coming up");
+      siteElement = new twoTeamMatch(scheduleElement.matchNumber, scheduleElement.description, "Upcoming",
+        scheduleElement.teams[0].teamNumber, scheduleElement.teams[1].teamNumber, null, //red
+        scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, null); //blue
+      nextMatch = index;
     }else{
-      console.log("no score");
-      test = new twoTeamMatch(element.matchNumber, element.description, element.startTime,
-        element.teams[0].teamNumber, element.teams[1].teamNumber, null, //red
-        element.teams[2].teamNumber, element.teams[3].teamNumber, null); //blue
+      console.log("coming up");
+      siteElement = new twoTeamMatch(scheduleElement.matchNumber, scheduleElement.description, "Upcoming",
+        scheduleElement.teams[0].teamNumber, scheduleElement.teams[1].teamNumber, null, //red
+        scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, null); //blue
     }
-    test.updateRankings(rankPairs);
-    matches.push(test);
-    scrollA.appendChild(test.getElementA());
-    scrollB.appendChild(test.getElementB());
+    siteElement.updateRankings(rankPairs);
+    matches.push(siteElement);
+    scrollA.appendChild(siteElement.getElementA());
+    scrollB.appendChild(siteElement.getElementB());
   }
   var rando = document.createElement("div");
   rando.style.height = "2em";
   scrollA.appendChild(rando);
   console.log("done");
   updateScroll();
+  trackerUpdate();
 }
 //makes it so you can feed in team number to array and get out the rank (ex: ranks["7159"]==11)
 async function ranksToKeyPairs() {
@@ -66,6 +80,49 @@ function updateScroll() {
       scrollB.getAnimations()[0].cancel();
     }
     scrollB.style.display = "none";
+  }
+}
+async function trackerUpdate(){
+  var allResults = await fetch("/testMatchResults.json").then(response => response.json());
+  console.log(allResults);
+  const latest = allResults.matches[allResults.matches.length-1];
+  var next = matches[nextMatch];
+  if(next == null){
+    statusTextContainer.children[0].textContent = "No more matches are";
+      statusTextContainer.children[1].textContent = "scheduled for this team.";
+      counter.textContent = "X";
+      allianceIndicator.textContent = "";
+      allianceIndicator.className = "very-light-gray";
+  }else if(latest.matchNumber == next.matchNumber-1){
+    statusTextContainer.children[0].textContent = next.description;
+    statusTextContainer.children[1].textContent = "Match in progress...";
+    counter.textContent = "-";
+    next.setStatus("In Progress");
+  }else if(latest.matchNumber == next.matchNumber-2){
+    statusTextContainer.children[0].textContent = next.description;
+    statusTextContainer.children[1].textContent = "On Deck NOW";
+    counter.textContent = "0";
+  }else if(latest.matchNumber < next.matchNumber-2){
+    statusTextContainer.children[0].textContent = next.description;
+    statusTextContainer.children[1].textContent = "Rounds until On Deck:";
+    counter.textContent = (next.matchNumber-2) - latest.matchNumber;
+  }else if(latest.matchNumber >= next.matchNumber){
+    nextMatch++;
+    next = matches[nextMatch];
+    if(next == null){
+      statusTextContainer.children[0].textContent = "No more matches are";
+      statusTextContainer.children[1].textContent = "scheduled for this team.";
+      counter.textContent = "X";
+      allianceIndicator.textContent = "";
+      allianceIndicator.className = "very-light-gray";
+    }else{
+      statusTextContainer.children[0].textContent = next.description;
+      statusTextContainer.children[1].textContent = "Rounds until On Deck:";
+      console.log(next.matchNumber);
+      console.log(latest.matchNumber);
+      counter.textContent = (next.matchNumber-2) - latest.matchNumber;
+    }
+    //TODO: detect alliance
   }
 }
 initialize();
