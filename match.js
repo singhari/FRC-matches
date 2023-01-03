@@ -17,14 +17,16 @@ export class twoTeamMatch {
   blueScore;
   elementA;
   elementB;
-  constructor(matchNo, title, status, redTeamA, redTeamB, blueTeamA, blueTeamB){
+  constructor(matchNo, title, status, redTeamA, redTeamB, redScore, blueTeamA, blueTeamB, blueScore){
     this.matchNo = matchNo
     this.title = title;
     this.status = status;
     this.redTeamA = redTeamA;
     this.redTeamB = redTeamB;
+    this.redScore = redScore;
     this.blueTeamA = blueTeamA;
     this.blueTeamB = blueTeamB;
+    this.blueScore = blueScore;
     this.elementA = this.createHTMLElement();
     this.elementB = this.createHTMLElement();
   }
@@ -83,11 +85,13 @@ export class twoTeamMatch {
     matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team", this.redTeamB));
     matchStat.appendChild(gimmeADivider());
     if(this.redScore == null){
+      console.log("no score in match");
       matchStat.appendChild(createDivWithClassAndText("very-light-gray score", ""));
       matchStat.appendChild(gimmeADivider());
       matchStat.appendChild(createDivWithClassAndText("very-light-gray score", ""));
       matchStat.appendChild(gimmeADivider());
     }else{
+      console.log("score in match");
       matchStat.appendChild(createDivWithClassAndText("light-ftc-red score", this.redScore));
       matchStat.appendChild(gimmeADivider());
       matchStat.appendChild(createDivWithClassAndText("light-ftc-blue score", this.blueScore));
