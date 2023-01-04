@@ -16,8 +16,8 @@ const matches = [];
 
 //init: make all the elements for the matches, get scores, get ranks, etc etc
 async function initialize() {
-  document.title = window.num + "-" + window.evCode;
-  document.getElementById("team-name").textContent = window.num + "-" + window.teamName;
+  document.title = window.num + " - " + window.evCode;
+  document.getElementById("team-name").textContent = window.num + " - " + window.teamName;
   document.getElementById("meet-details").textContent = window.evName;
   var rankPairs = await ranksToKeyPairs();
   var schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?teamNumber="+window.num})
