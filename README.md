@@ -24,7 +24,7 @@ Select the extension in the extensions tab (the puzzle piece).
 
 ![image](https://user-images.githubusercontent.com/42128680/210491346-9845819e-1603-4c0d-bc48-d3b67897e339.png)
 
-##### Step 5 (CURRENTLY NOT IMPLEMENTED, right now there's just a button to launch with presets):
+##### Step 5:
 Input a team number and event code to be displayed and click Open.
 
 ![image](https://user-images.githubusercontent.com/42128680/210491730-bceaf6fe-7910-49eb-8b68-a8f726ba23cf.png)
