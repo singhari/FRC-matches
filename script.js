@@ -5,9 +5,10 @@ const list = document.getElementById("match_list");
 const scrollA = document.getElementById("scroll-container-a");
 const scrollB = document.getElementById("scroll-container-b");
 const statusTextContainer = document.getElementById("left");
-console.log(statusTextContainer);
 const counter =  document.getElementById("counter");
 const allianceIndicator = document.getElementById("alliance");
+let team = 7159;
+let eventCode;
 var nextMatch = -1;
 const matches = [];
 
@@ -17,7 +18,8 @@ const matches = [];
 //init: make all the elements for the matches, get scores, get ranks, etc etc
 async function initialize() {
   var rankPairs = await ranksToKeyPairs();
-  var schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/USCASDSDGAM2?teamNumber=7159" })
+  // var schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/USCASDSDGAM2?teamNumber=7159" })
+  var schedule = await fetch("/testTeamSchedule.json").then(response => response.json());
   // var results = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/USCASDSDGAM2?teamNumber=7159" })
   var results = await fetch("/testTeamResults.json").then(response => response.json());
 
@@ -31,13 +33,13 @@ async function initialize() {
         scheduleElement.teams[0].teamNumber, scheduleElement.teams[1].teamNumber, resultElement.scoreRedFinal, //red
         scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, resultElement.scoreBlueFinal); //blue
     }else if(results.matches.length == index){
-      console.log("coming up");
+      console.log("this is nextMatch");
       siteElement = new twoTeamMatch(scheduleElement.matchNumber, scheduleElement.description, "Upcoming",
         scheduleElement.teams[0].teamNumber, scheduleElement.teams[1].teamNumber, null, //red
         scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, null); //blue
       nextMatch = index;
     }else{
-      console.log("coming up");
+      console.log("upcoming");
       siteElement = new twoTeamMatch(scheduleElement.matchNumber, scheduleElement.description, "Upcoming",
         scheduleElement.teams[0].teamNumber, scheduleElement.teams[1].teamNumber, null, //red
         scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, null); //blue
@@ -82,47 +84,51 @@ function updateScroll() {
     scrollB.style.display = "none";
   }
 }
+//updates the tracker: different states based on match in progress, on deck,
+//match upcoming, or the next match needs to increment
 async function trackerUpdate(){
   var allResults = await fetch("/testMatchResults.json").then(response => response.json());
   console.log(allResults);
   const latest = allResults.matches[allResults.matches.length-1];
   var next = matches[nextMatch];
   if(next == null){
-    statusTextContainer.children[0].textContent = "No more matches are";
-      statusTextContainer.children[1].textContent = "scheduled for this team.";
-      counter.textContent = "X";
-      allianceIndicator.textContent = "";
-      allianceIndicator.className = "very-light-gray";
+    //no more matches
+    updateTrackerFields("No more matches are", "scheduled for this team", "X", null);
+  }else if(latest == null){
+    updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2), next.getTeamAlliance(team));
   }else if(latest.matchNumber == next.matchNumber-1){
-    statusTextContainer.children[0].textContent = next.description;
-    statusTextContainer.children[1].textContent = "Match in progress...";
-    counter.textContent = "-";
+    updateTrackerFields(next.description, "Match in progress...", "-", next.getTeamAlliance(team));
     next.setStatus("In Progress");
   }else if(latest.matchNumber == next.matchNumber-2){
-    statusTextContainer.children[0].textContent = next.description;
-    statusTextContainer.children[1].textContent = "On Deck NOW";
-    counter.textContent = "0";
+    //on deck
+    updateTrackerFields(next.description, "On Deck NOW", "0", next.getTeamAlliance(team));
   }else if(latest.matchNumber < next.matchNumber-2){
-    statusTextContainer.children[0].textContent = next.description;
-    statusTextContainer.children[1].textContent = "Rounds until On Deck:";
-    counter.textContent = (next.matchNumber-2) - latest.matchNumber;
+    updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2) - latest.matchNumber, next.getTeamAlliance(team));
   }else if(latest.matchNumber >= next.matchNumber){
     nextMatch++;
     next = matches[nextMatch];
+    //if there is no next match say so, else display that information
     if(next == null){
-      statusTextContainer.children[0].textContent = "No more matches are";
-      statusTextContainer.children[1].textContent = "scheduled for this team.";
-      counter.textContent = "X";
+      updateTrackerFields("No more matches are", "scheduled for this team", "X", null);
+    }else{
+      updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2) - latest.matchNumber, next.getTeamAlliance(team));
+    }
+  }
+  //dedicated function to update the fields to tidy up the code a bit
+  function updateTrackerFields(top, bottom, ctr, alliance){
+    statusTextContainer.children[0].textContent = top;
+    statusTextContainer.children[1].textContent = bottom;
+    counter.textContent = ctr;
+    if(alliance == "red"){
+      allianceIndicator.textContent = "RED";
+      allianceIndicator.className = "light-ftc-red";
+    }else if(alliance == "blue"){
+      allianceIndicator.textContent = "BLUE";
+      allianceIndicator.className = "light-ftc-blue";
+    }else{
       allianceIndicator.textContent = "";
       allianceIndicator.className = "very-light-gray";
-    }else{
-      statusTextContainer.children[0].textContent = next.description;
-      statusTextContainer.children[1].textContent = "Rounds until On Deck:";
-      console.log(next.matchNumber);
-      console.log(latest.matchNumber);
-      counter.textContent = (next.matchNumber-2) - latest.matchNumber;
     }
-    //TODO: detect alliance
   }
 }
 initialize();

@@ -60,6 +60,11 @@ export class twoTeamMatch {
   getElementB(){
     return this.elementB;
   }
+  getTeamAlliance(team){
+    if(this.redTeamA == team || this.redTeamB == team) return "red";
+    else if(this.blueTeamA == team || this.blueTeamB == team) return "blue";
+    else return null;
+  }
 
   //literally makes an entire 2 elements for the scrolling list
   createHTMLElement(){
