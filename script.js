@@ -1,4 +1,4 @@
-import { createDivWithClassAndText } from '/helpfulHTML.js';
+// import { createDivWithClassAndText } from '/helpfulHTML.js';
 import { twoTeamMatch } from '/match.js';
 
 const list = document.getElementById("match_list");
@@ -8,7 +8,6 @@ const statusTextContainer = document.getElementById("left");
 const counter =  document.getElementById("counter");
 const allianceIndicator = document.getElementById("alliance");
 let team = 7159;
-let eventCode;
 var nextMatch = -1;
 const matches = [];
 
@@ -17,16 +16,20 @@ const matches = [];
 
 //init: make all the elements for the matches, get scores, get ranks, etc etc
 async function initialize() {
+  document.title = window.num + "-" + window.evCode;
+  document.getElementById("team-name").textContent = window.num + "-" + window.teamName;
+  document.getElementById("meet-details").textContent = window.evName;
   var rankPairs = await ranksToKeyPairs();
-  // var schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/USCASDSDGAM2?teamNumber=7159" })
-  var schedule = await fetch("/testTeamSchedule.json").then(response => response.json());
-  // var results = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/USCASDSDGAM2?teamNumber=7159" })
-  var results = await fetch("/testTeamResults.json").then(response => response.json());
+  var schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?teamNumber="+window.num})
+  // var schedule = await fetch("/testTeamSchedule.json").then(response => response.json());
+  var results = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode+"?teamNumber="+window.num })
+  // var results = await fetch("/testTeamResults.json").then(response => response.json());
 
   for (let index = 0; index < schedule.schedule.length; index++) {
     const scheduleElement = schedule.schedule[index];
     const resultElement = results.matches[index];
     let siteElement;
+    //figures out if a match is completed, up coming and the next event, or upcoming but not the next event
     if(results.matches.length > index){
       console.log("score");
       siteElement = new twoTeamMatch(scheduleElement.matchNumber, scheduleElement.description, "Completed",
@@ -49,6 +52,7 @@ async function initialize() {
     scrollA.appendChild(siteElement.getElementA());
     scrollB.appendChild(siteElement.getElementB());
   }
+  //spacing for the infinite scrolling "wraparound"
   var rando = document.createElement("div");
   rando.style.height = "2em";
   scrollA.appendChild(rando);
@@ -59,7 +63,7 @@ async function initialize() {
 //makes it so you can feed in team number to array and get out the rank (ex: ranks["7159"]==11)
 async function ranksToKeyPairs() {
   var resp = {};
-  var response = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/rankings/USCASDSDGAM2" });
+  var response = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/rankings/"+window.evCode });
   response.Rankings.forEach(element => {
     resp[element.teamNumber.toString()] = element.rank;
   });
@@ -87,8 +91,8 @@ function updateScroll() {
 //updates the tracker: different states based on match in progress, on deck,
 //match upcoming, or the next match needs to increment
 async function trackerUpdate(){
-  var allResults = await fetch("/testMatchResults.json").then(response => response.json());
-  console.log(allResults);
+  var allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode })
+  // var allResults = await fetch("/testMatchResults.json").then(response => response.json());
   const latest = allResults.matches[allResults.matches.length-1];
   var next = matches[nextMatch];
   if(next == null){
