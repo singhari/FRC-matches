@@ -31,10 +31,13 @@ export class twoTeamMatch {
     this.elementB = this.createHTMLElement();
   }
   setScore(redScore, blueScore){
-    this.redScore = redScore;
-    this.blueScore = blueScore;
-    this.elementA.children[1].children[8].textContent=this.redScore;
-    this.elementA.children[1].children[10].textContent=this.blueScore;
+    if(redScore == null){
+      this.redScore = redScore;
+      this.blueScore = blueScore;
+      this.elementA.children[1].children[8].textContent=this.redScore;
+      this.elementA.children[1].children[10].textContent=this.blueScore;
+    }
+
   }
   //takes in the key-pair list for rankings and applies it
   updateRankings(rankList){

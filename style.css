@@ -9,14 +9,14 @@ html, body {
   height: 100%
 }
 #top-bar{
-  flex: 0 0 8rem;
+  flex: 0 0 7.5rem;
 }
 #middle-content{
   flex: 1 1 auto;
   overflow: hidden;
 }
 #bottom-bar {
-  flex: 0 0 9.5rem;
+  flex: 0 0 9rem;
 }
 
 #match_list{
@@ -87,7 +87,9 @@ html, body {
   width:90%; 
   height:90%; 
   max-width: 1000px; 
-  border:5px solid yellow;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #707070;
   background: white;
   display: flex;
   flex-direction: row;
@@ -104,7 +106,7 @@ html, body {
 
 #counter-container #left span{
   flex: 1 1 auto;
-  font-size: 38px;
+  font-size: 35px;
   width: 100%;
   padding-left: 1rem;
   padding-right: 1rem;

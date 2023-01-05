@@ -7,10 +7,14 @@ const scrollB = document.getElementById("scroll-container-b");
 const statusTextContainer = document.getElementById("left");
 const counter =  document.getElementById("counter");
 const allianceIndicator = document.getElementById("alliance");
-let team = 7159;
+const counterBorderThing = document.getElementById("counter-container");
+let team = window.num;
 var nextMatch = -1;
 const matches = [];
-
+var schedule;
+var results;
+var allResults;
+var rankResponse;
 //all these functions are async cause i'm too lazy to do async properly (and async is genuinely confusing as well) 
 //the entire program currently assumes that A. the API provides the matches in the order that they would be played B. the schedule api and matches api are in the same order.
 
@@ -19,30 +23,25 @@ async function initialize() {
   document.title = window.num + " - " + window.evCode;
   document.getElementById("team-name").textContent = window.num + " - " + window.teamName;
   document.getElementById("meet-details").textContent = window.evName;
-  var rankPairs = await ranksToKeyPairs();
-  var schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?teamNumber="+window.num})
-  // var schedule = await fetch("/testTeamSchedule.json").then(response => response.json());
-  var results = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode+"?teamNumber="+window.num })
-  // var results = await fetch("/testTeamResults.json").then(response => response.json());
-
+  if(await getData() == false){
+    return;
+  }
+  const rankPairs = ranksToKeyPairs();
   for (let index = 0; index < schedule.schedule.length; index++) {
     const scheduleElement = schedule.schedule[index];
     const resultElement = results.matches[index];
     let siteElement;
     //figures out if a match is completed, up coming and the next event, or upcoming but not the next event
     if(results.matches.length > index){
-      console.log("score");
       siteElement = new twoTeamMatch(scheduleElement.matchNumber, scheduleElement.description, "Completed",
         scheduleElement.teams[0].teamNumber, scheduleElement.teams[1].teamNumber, resultElement.scoreRedFinal, //red
         scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, resultElement.scoreBlueFinal); //blue
     }else if(results.matches.length == index){
-      console.log("this is nextMatch");
       siteElement = new twoTeamMatch(scheduleElement.matchNumber, scheduleElement.description, "Upcoming",
         scheduleElement.teams[0].teamNumber, scheduleElement.teams[1].teamNumber, null, //red
         scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, null); //blue
       nextMatch = index;
-    }else{
-      console.log("upcoming");
+    }else{ 
       siteElement = new twoTeamMatch(scheduleElement.matchNumber, scheduleElement.description, "Upcoming",
         scheduleElement.teams[0].teamNumber, scheduleElement.teams[1].teamNumber, null, //red
         scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, null); //blue
@@ -57,17 +56,52 @@ async function initialize() {
   rando.style.height = "2em";
   scrollA.appendChild(rando);
   console.log("done");
-  updateScroll();
   trackerUpdate();
+  updateScroll();
+  setInterval(() => {
+    updateEverything();
+  }, 30000);
+}
+
+async function updateEverything(){
+  if(await getData() == false){
+    return;
+  }
+  const rankPairs = ranksToKeyPairs();
+  for (let index = 0; index < matches.length; index++) {
+    const element = matches[index];
+    if(results.matches.length > index){
+      element.setScore(results.matches[index].scoreRedFinal, results.matches[index].scoreBlueFinal);
+    }
+    element.updateRankings(rankPairs);
+  }
+  trackerUpdate();
+  // updateScroll();
 }
 //makes it so you can feed in team number to array and get out the rank (ex: ranks["7159"]==11)
-async function ranksToKeyPairs() {
+function ranksToKeyPairs() {
   var resp = {};
-  var response = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/rankings/"+window.evCode });
-  response.Rankings.forEach(element => {
+  console.log(rankResponse);
+  rankResponse.Rankings.forEach(element => {
     resp[element.teamNumber.toString()] = element.rank;
   });
+  console.log(resp);
   return resp;
+}
+//gets all of the data at the same time to try and avoid having partially inputted data
+//returns false if at least one of the API calls failed.
+async function getData(){
+  // schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?teamNumber="+team});
+  // results = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode+"?teamNumber="+team });
+  // allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode });
+  rankResponse = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/rankings/"+window.evCode });
+  schedule = await fetch("/testTeamSchedule.json").then(response => response.json());
+  results = await fetch("/testTeamResults.json").then(response => response.json());
+  allResults = await fetch("/testMatchResults.json").then(response => response.json());
+  if(schedule.error != undefined || results.error != undefined || allResults.error != undefined || rankResponse.error != undefined){
+    updateTrackerFields("An API error occurred.", "Retrying in 30 seconds...", "X", null, "#f12718");
+    return false;
+  }
 }
 //calculates distance, speed, etc for the animation, or turns it off if it all fits
 function updateScroll() {
@@ -91,48 +125,57 @@ function updateScroll() {
 //updates the tracker: different states based on match in progress, on deck,
 //match upcoming, or the next match needs to increment
 async function trackerUpdate(){
-  var allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode })
-  // var allResults = await fetch("/testMatchResults.json").then(response => response.json());
   const latest = allResults.matches[allResults.matches.length-1];
   var next = matches[nextMatch];
   if(next == null){
     //no more matches
-    updateTrackerFields("No more matches are", "scheduled for this team", "X", null);
+    updateTrackerFields("No more matches are", "scheduled for this team", "-", null);
   }else if(latest == null){
-    updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2), next.getTeamAlliance(team));
+    //fix for beginning of a meet
+    updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2), next.getTeamAlliance(team), "#2dd334");
   }else if(latest.matchNumber == next.matchNumber-1){
-    updateTrackerFields(next.description, "Match in progress...", "-", next.getTeamAlliance(team));
+    //in progress
+    updateTrackerFields(next.description, "Match in progress...", "-", next.getTeamAlliance(team), "#0e89f3");
     next.setStatus("In Progress");
   }else if(latest.matchNumber == next.matchNumber-2){
     //on deck
-    updateTrackerFields(next.description, "On Deck NOW", "0", next.getTeamAlliance(team));
+    updateTrackerFields(next.description, "On Deck NOW", "0", next.getTeamAlliance(team), "#ff9800");
   }else if(latest.matchNumber < next.matchNumber-2){
-    updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2) - latest.matchNumber, next.getTeamAlliance(team));
+    //not on deck yet
+    updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2) - latest.matchNumber, next.getTeamAlliance(team), "#2dd334");
   }else if(latest.matchNumber >= next.matchNumber){
+    next.setStatus("Completed");
     nextMatch++;
     next = matches[nextMatch];
     //if there is no next match say so, else display that information
     if(next == null){
-      updateTrackerFields("No more matches are", "scheduled for this team", "X", null);
+      updateTrackerFields("No more matches are", "scheduled for this team", "-", null);
     }else{
-      updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2) - latest.matchNumber, next.getTeamAlliance(team));
-    }
-  }
-  //dedicated function to update the fields to tidy up the code a bit
-  function updateTrackerFields(top, bottom, ctr, alliance){
-    statusTextContainer.children[0].textContent = top;
-    statusTextContainer.children[1].textContent = bottom;
-    counter.textContent = ctr;
-    if(alliance == "red"){
-      allianceIndicator.textContent = "RED";
-      allianceIndicator.className = "light-ftc-red";
-    }else if(alliance == "blue"){
-      allianceIndicator.textContent = "BLUE";
-      allianceIndicator.className = "light-ftc-blue";
-    }else{
-      allianceIndicator.textContent = "";
-      allianceIndicator.className = "very-light-gray";
+      trackerUpdate();
+      // updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2) - latest.matchNumber, next.getTeamAlliance(team), "#2dd334");
     }
   }
 }
-initialize();
+//dedicated function to update the fields to tidy up the code a bit
+function updateTrackerFields(top, bottom, ctr, alliance, clr){
+  statusTextContainer.children[0].textContent = top;
+  statusTextContainer.children[1].textContent = bottom;
+  if(clr == undefined || clr == null){
+    counterBorderThing.style.borderColor = "#707070";
+  }else{
+    counterBorderThing.style.borderColor = clr;
+  }
+  
+  counter.textContent = ctr;
+  if(alliance == "red"){
+    allianceIndicator.textContent = "RED";
+    allianceIndicator.className = "light-ftc-red";
+  }else if(alliance == "blue"){
+    allianceIndicator.textContent = "BLUE";
+    allianceIndicator.className = "light-ftc-blue";
+  }else{
+    allianceIndicator.textContent = "";
+    allianceIndicator.className = "very-light-gray";
+  }
+}
+setTimeout(initialize, 500);

@@ -22,15 +22,21 @@ async function openSite(){
   if(!bad){
     var event = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/events?eventCode="+code.value.trim() })
     var tm = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/teams?teamNumber="+team.value.trim() })
-    console.log(tm);
-    console.log(event);
-    if(typeof tm === "string"){
+    if(tm.error != undefined){
       bad = true;
-      teamErr.textContent = "Invalid team number"
+      if(tm.error == "400") {
+        teamErr.textContent = "Invalid team number";
+      }else {
+        teamErr.textContent = "An unknown error occurred: "+tm.error;
+      }
     }
-    if(typeof event === "string"){
+    if(event.error != undefined){
       bad = true;
-      codeErr.textContent = "Invalid event code."
+      if(event.error == "404") {
+        codeErr.textContent = "Invalid event code";
+      }else {
+        codeErr.textContent = "An unknown error occurred: "+event.error;
+      }
     }
     if(!bad){
       const wind = window.open("/index.html", "", "popup");

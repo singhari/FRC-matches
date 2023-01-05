@@ -1,12 +1,21 @@
 chrome.runtime.onMessage.addListener(
     function (data, sender, sendResponse) {
-        fetch(data.url, {
+        const prom = fetch(data.url, {
             headers: {
                 authorization: "Basic " + btoa("karsteny:3298DEAE-A59D-487C-8092-3C4B1C63ECE3")
             }
         })
-        .then((response) => response.json())
-        .then((deeta) => sendResponse(deeta));
+        .then((response) => {
+            if(response.ok){
+                return response.json();
+            }else{
+                return JSON.parse("{\"error\": \""+response.status + "\"}");
+            }
+        })
+        .then((deeta) => sendResponse(deeta))
+        .catch((reason) => {
+            sendResponse(JSON.parse("{\"error\": \"Failed to fetch.\"}"));
+        });
         return true;
     }
 );
