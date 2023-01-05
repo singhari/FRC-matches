@@ -91,13 +91,13 @@ function ranksToKeyPairs() {
 //gets all of the data at the same time to try and avoid having partially inputted data
 //returns false if at least one of the API calls failed.
 async function getData(){
-  // schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?teamNumber="+team});
-  // results = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode+"?teamNumber="+team });
-  // allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode });
+  schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?teamNumber="+team});
+  results = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode+"?teamNumber="+team });
+  allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode });
   rankResponse = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/rankings/"+window.evCode });
-  schedule = await fetch("/testTeamSchedule.json").then(response => response.json());
-  results = await fetch("/testTeamResults.json").then(response => response.json());
-  allResults = await fetch("/testMatchResults.json").then(response => response.json());
+  // schedule = await fetch("/testTeamSchedule.json").then(response => response.json());
+  // results = await fetch("/testTeamResults.json").then(response => response.json());
+  // allResults = await fetch("/testMatchResults.json").then(response => response.json());
   if(schedule.error != undefined || results.error != undefined || allResults.error != undefined || rankResponse.error != undefined){
     updateTrackerFields("An API error occurred.", "Retrying in 30 seconds...", "X", null, "#f12718");
     return false;
