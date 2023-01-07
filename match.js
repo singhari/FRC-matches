@@ -17,7 +17,8 @@ export class twoTeamMatch {
   blueScore;
   elementA;
   elementB;
-  constructor(matchNo, description, status, redTeamA, redTeamB, redScore, blueTeamA, blueTeamB, blueScore){
+  teamNumber;
+  constructor(matchNo, description, status, redTeamA, redTeamB, redScore, blueTeamA, blueTeamB, blueScore, teamNumber){
     this.matchNumber = matchNo;
     this.description = description;
     this.status = status;
@@ -27,6 +28,11 @@ export class twoTeamMatch {
     this.blueTeamA = blueTeamA;
     this.blueTeamB = blueTeamB;
     this.blueScore = blueScore;
+    this.teamNumber = teamNumber;
+    console.log(typeof this.teamNumber);
+    console.log(typeof this.redTeamA);
+    console.log(this.teamNumber);
+    console.log(this.redTeamA);
     this.elementA = this.createHTMLElement();
     this.elementB = this.createHTMLElement();
   }
@@ -36,6 +42,15 @@ export class twoTeamMatch {
       this.blueScore = blueScore;
       this.elementA.children[1].children[8].textContent=this.redScore;
       this.elementA.children[1].children[10].textContent=this.blueScore;
+      this.elementB.children[1].children[8].textContent=this.redScore;
+      this.elementB.children[1].children[10].textContent=this.blueScore;
+      if(this.redScore > this.blueScore){
+        this.elementA.children[1].children[8].className = "light-ftc-red score bold"
+        this.elementB.children[1].children[8].className = "light-ftc-red score bold"
+      }else if(this.blueScore > this.redScore){
+        this.elementA.children[1].children[10].className = "light-ftc-blue score bold"
+        this.elementB.children[1].children[10].className = "light-ftc-blue score bold"
+      }
     }
 
   }
@@ -63,9 +78,9 @@ export class twoTeamMatch {
   getElementB(){
     return this.elementB;
   }
-  getTeamAlliance(team){
-    if(this.redTeamA == team || this.redTeamB == team) return "red";
-    else if(this.blueTeamA == team || this.blueTeamB == team) return "blue";
+  getTeamAlliance(){
+    if(this.redTeamA == this.teamNumber || this.redTeamB == teamNumber) return "red";
+    else if(this.blueTeamA == teamNumber || this.blueTeamB == teamNumber) return "blue";
     else return null;
   }
 
@@ -84,32 +99,57 @@ export class twoTeamMatch {
     matchStat.className = "match-stat";
     matchStat.appendChild(createDivWithClassAndText("dark-ftc-red rank", ""));
     matchStat.appendChild(gimmeADivider());
-    matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team", this.redTeamA));
+    //ifs that look like this -> check for team number to bold it
+    if(this.redTeamA == this.teamNumber){
+      matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team bold", this.redTeamA));
+    }else{
+      matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team", this.redTeamA));
+    }
     matchStat.appendChild(gimmeADivider());
     matchStat.appendChild(createDivWithClassAndText("dark-ftc-red rank", ""));
     matchStat.appendChild(gimmeADivider());
-    matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team", this.redTeamB));
+    if(this.redTeamB == this.teamNumber){
+      matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team bold", this.redTeamB));
+    }else{
+      matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team", this.redTeamB));
+    }
     matchStat.appendChild(gimmeADivider());
     if(this.redScore == null){
-      console.log("no score in match");
+      //no score
       matchStat.appendChild(createDivWithClassAndText("very-light-gray score", ""));
       matchStat.appendChild(gimmeADivider());
       matchStat.appendChild(createDivWithClassAndText("very-light-gray score", ""));
       matchStat.appendChild(gimmeADivider());
     }else{
-      console.log("score in match");
-      matchStat.appendChild(createDivWithClassAndText("light-ftc-red score", this.redScore));
+      //checking which score is bigger and bolding it -> these 2 if-else statements
+      if(this.redScore > this.blueScore){
+        matchStat.appendChild(createDivWithClassAndText("light-ftc-red score bold", this.redScore));
+      }else{
+        matchStat.appendChild(createDivWithClassAndText("light-ftc-red score", this.redScore));
+      }
       matchStat.appendChild(gimmeADivider());
-      matchStat.appendChild(createDivWithClassAndText("light-ftc-blue score", this.blueScore));
+      if(this.blueScore > this.redScore){
+        matchStat.appendChild(createDivWithClassAndText("light-ftc-blue score bold", this.blueScore));
+      }else{
+        matchStat.appendChild(createDivWithClassAndText("light-ftc-blue score", this.blueScore));
+      }
       matchStat.appendChild(gimmeADivider());
     }
     matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue rank", ""));
     matchStat.appendChild(gimmeADivider());
-    matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team", this.blueTeamA));
+    if(this.blueTeamA == this.teamNumber){
+      matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team bold", this.blueTeamA));
+    }else{
+      matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team", this.blueTeamA));
+    }
     matchStat.appendChild(gimmeADivider());
     matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue rank", ""));
     matchStat.appendChild(gimmeADivider());
-    matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team", this.blueTeamB));
+    if(this.blueTeamB == this.teamNumber){
+      matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team bold", this.blueTeamB));
+    }else{
+      matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team", this.blueTeamB));
+    }
     outerDiv.appendChild(matchStat);
     return outerDiv;
   } 

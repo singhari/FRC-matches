@@ -11,3 +11,4 @@ export function gimmeADivider(){
   divider.className = "divider";
   return divider;
 }
+

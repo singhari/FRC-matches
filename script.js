@@ -35,16 +35,16 @@ async function initialize() {
     if(results.matches.length > index){
       siteElement = new twoTeamMatch(scheduleElement.matchNumber, scheduleElement.description, "Completed",
         scheduleElement.teams[0].teamNumber, scheduleElement.teams[1].teamNumber, resultElement.scoreRedFinal, //red
-        scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, resultElement.scoreBlueFinal); //blue
+        scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, resultElement.scoreBlueFinal, team); //blue
     }else if(results.matches.length == index){
       siteElement = new twoTeamMatch(scheduleElement.matchNumber, scheduleElement.description, "Upcoming",
         scheduleElement.teams[0].teamNumber, scheduleElement.teams[1].teamNumber, null, //red
-        scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, null); //blue
+        scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, null, team); //blue
       nextMatch = index;
     }else{ 
       siteElement = new twoTeamMatch(scheduleElement.matchNumber, scheduleElement.description, "Upcoming",
         scheduleElement.teams[0].teamNumber, scheduleElement.teams[1].teamNumber, null, //red
-        scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, null); //blue
+        scheduleElement.teams[2].teamNumber, scheduleElement.teams[3].teamNumber, null, team); //blue
     }
     siteElement.updateRankings(rankPairs);
     matches.push(siteElement);
@@ -76,7 +76,6 @@ async function updateEverything(){
     element.updateRankings(rankPairs);
   }
   trackerUpdate();
-  // updateScroll();
 }
 //makes it so you can feed in team number to array and get out the rank (ex: ranks["7159"]==11)
 function ranksToKeyPairs() {
@@ -122,6 +121,13 @@ function updateScroll() {
     scrollB.style.display = "none";
   }
 }
+//automatically redoes scroll hasn't resized for 500ms after being resized (thanks stackoverflow question #2996431)
+window.addEventListener('resize', function() {
+  if(this.resizeTimeout) clearTimeout(this.resizeTimeout);
+  this.resizeTimeout = setTimeout(function() {
+      updateScroll();
+  }, 1000);
+});
 //updates the tracker: different states based on match in progress, on deck,
 //match upcoming, or the next match needs to increment
 async function trackerUpdate(){
@@ -132,17 +138,17 @@ async function trackerUpdate(){
     updateTrackerFields("No more matches are", "scheduled for this team", "-", null);
   }else if(latest == null){
     //fix for beginning of a meet
-    updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2), next.getTeamAlliance(team), "#2dd334");
+    updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2), next.getTeamAlliance(), "#2dd334");
   }else if(latest.matchNumber == next.matchNumber-1){
     //in progress
-    updateTrackerFields(next.description, "Match in progress...", "-", next.getTeamAlliance(team), "#0e89f3");
+    updateTrackerFields(next.description, "Match in progress...", "-", next.getTeamAlliance(), "#0e89f3");
     next.setStatus("In Progress");
   }else if(latest.matchNumber == next.matchNumber-2){
     //on deck
-    updateTrackerFields(next.description, "On Deck NOW", "0", next.getTeamAlliance(team), "#ff9800");
+    updateTrackerFields(next.description, "On Deck NOW", "0", next.getTeamAlliance(), "#ff9800");
   }else if(latest.matchNumber < next.matchNumber-2){
     //not on deck yet
-    updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2) - latest.matchNumber, next.getTeamAlliance(team), "#2dd334");
+    updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2) - latest.matchNumber, next.getTeamAlliance(), "#2dd334");
   }else if(latest.matchNumber >= next.matchNumber){
     next.setStatus("Completed");
     nextMatch++;
@@ -152,7 +158,7 @@ async function trackerUpdate(){
       updateTrackerFields("No more matches are", "scheduled for this team", "-", null);
     }else{
       trackerUpdate();
-      // updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2) - latest.matchNumber, next.getTeamAlliance(team), "#2dd334");
+      // updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2) - latest.matchNumber, next.getTeamAlliance(), "#2dd334");
     }
   }
 }
