@@ -85,8 +85,8 @@ export class twoTeamMatch {
     return this.elementB;
   }
   getTeamAlliance(){
-    if(this.redTeamA == this.teamNumber || this.redTeamB == teamNumber) return "red";
-    else if(this.blueTeamA == teamNumber || this.blueTeamB == teamNumber) return "blue";
+    if(this.redTeamA == this.teamNumber || this.redTeamB == this.teamNumber) return "red";
+    else if(this.blueTeamA == this.teamNumber || this.blueTeamB == this.teamNumber) return "blue";
     else return null;
   }
 
