@@ -71,6 +71,7 @@ async function updateEverything(){
   for (let index = 0; index < matches.length; index++) {
     const element = matches[index];
     if(results.matches.length > index){
+      console.log("match score updates");
       element.setScore(results.matches[index].scoreRedFinal, results.matches[index].scoreBlueFinal);
     }
     element.updateRankings(rankPairs);
@@ -80,11 +81,11 @@ async function updateEverything(){
 //makes it so you can feed in team number to array and get out the rank (ex: ranks["7159"]==11)
 function ranksToKeyPairs() {
   var resp = {};
-  console.log(rankResponse);
+  // console.log(rankResponse);
   rankResponse.Rankings.forEach(element => {
     resp[element.teamNumber.toString()] = element.rank;
   });
-  console.log(resp);
+  // console.log(resp);
   return resp;
 }
 //gets all of the data at the same time to try and avoid having partially inputted data
@@ -92,6 +93,8 @@ function ranksToKeyPairs() {
 async function getData(){
   schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?teamNumber="+team});
   results = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode+"?teamNumber="+team });
+  console.log("https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode+"?teamNumber="+team );
+  console.log(results);
   allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode });
   rankResponse = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/rankings/"+window.evCode });
   // schedule = await fetch("/testTeamSchedule.json").then(response => response.json());
@@ -122,12 +125,7 @@ function updateScroll() {
   }
 }
 //automatically redoes scroll hasn't resized for 500ms after being resized (thanks stackoverflow question #2996431)
-window.addEventListener('resize', function() {
-  if(this.resizeTimeout) clearTimeout(this.resizeTimeout);
-  this.resizeTimeout = setTimeout(function() {
-      updateScroll();
-  }, 1000);
-});
+
 //updates the tracker: different states based on match in progress, on deck,
 //match upcoming, or the next match needs to increment
 async function trackerUpdate(){
@@ -185,3 +183,9 @@ function updateTrackerFields(top, bottom, ctr, alliance, clr){
   }
 }
 setTimeout(initialize, 500);
+window.addEventListener('resize', function() {
+  if(this.resizeTimeout) clearTimeout(this.resizeTimeout);
+  this.resizeTimeout = setTimeout(function() {
+      updateScroll();
+  }, 1000);
+});

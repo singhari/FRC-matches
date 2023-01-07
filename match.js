@@ -37,7 +37,9 @@ export class twoTeamMatch {
     this.elementB = this.createHTMLElement();
   }
   setScore(redScore, blueScore){
-    if(redScore == null){
+    console.log("setting score");
+    if(this.redScore == null){
+      console.log("new score");
       this.redScore = redScore;
       this.blueScore = blueScore;
       this.elementA.children[1].children[8].textContent=this.redScore;
@@ -45,11 +47,15 @@ export class twoTeamMatch {
       this.elementB.children[1].children[8].textContent=this.redScore;
       this.elementB.children[1].children[10].textContent=this.blueScore;
       if(this.redScore > this.blueScore){
-        this.elementA.children[1].children[8].className = "light-ftc-red score bold"
-        this.elementB.children[1].children[8].className = "light-ftc-red score bold"
+        this.elementA.children[1].children[8].className = "light-ftc-red score bold";
+        this.elementB.children[1].children[8].className = "light-ftc-red score bold";
+        this.elementA.children[1].children[10].className = "light-ftc-blue score";
+        this.elementB.children[1].children[10].className = "light-ftc-blue score";
       }else if(this.blueScore > this.redScore){
-        this.elementA.children[1].children[10].className = "light-ftc-blue score bold"
-        this.elementB.children[1].children[10].className = "light-ftc-blue score bold"
+        this.elementA.children[1].children[10].className = "light-ftc-blue score bold";
+        this.elementB.children[1].children[10].className = "light-ftc-blue score bold";
+        this.elementA.children[1].children[8].className = "light-ftc-red score";
+        this.elementB.children[1].children[8].className = "light-ftc-red score";
       }
     }
 

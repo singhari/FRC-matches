@@ -3,7 +3,8 @@ chrome.runtime.onMessage.addListener(
         const prom = fetch(data.url, {
             headers: {
                 authorization: "Basic " + btoa("karsteny:3298DEAE-A59D-487C-8092-3C4B1C63ECE3")
-            }
+            },
+            cache: "no-store"
         })
         .then((response) => {
             if(response.ok){
