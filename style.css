@@ -26,8 +26,8 @@ html, body {
 #match_list{
   overflow: hidden;
   flex: 1 1 auto;
-  margin-bottom: 3rem;
-  margin-top: 3rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
   background: #999999;
   border: 3px solid black;
 
