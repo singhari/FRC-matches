@@ -10,11 +10,12 @@ const allianceIndicator = document.getElementById("alliance");
 const counterBorderThing = document.getElementById("counter-container");
 let team = window.num;
 var nextMatch = -1;
-const matches = [];
+var matches = [];
 var schedule;
 var results;
 var allResults;
 var rankResponse;
+var autoRefresh;
 //all these functions are async cause i'm too lazy to do async properly (and async is genuinely confusing as well) 
 //the entire program currently assumes that A. the API provides the matches in the order that they would be played B. the schedule api and matches api are in the same order.
 
@@ -58,7 +59,7 @@ async function initialize() {
   console.log("done");
   trackerUpdate();
   updateScroll();
-  setInterval(() => {
+  autoRefresh = setInterval(() => {
     updateEverything();
   }, 30000);
 }
@@ -68,6 +69,16 @@ async function updateEverything(){
     return;
   }
   const rankPairs = ranksToKeyPairs();
+  if(schedule.length != matches.length){
+    console.log(schedule.length + " - " + matches.length);
+    scrollA.innerHTML = "";
+    scrollB.innerHTML = "";
+    nextMatch = -1;
+    matches = [];
+    clearTimeout(autoRefresh);
+    await initialize();
+    return;
+  }
   for (let index = 0; index < matches.length; index++) {
     const element = matches[index];
     if(results.matches.length > index){
@@ -93,8 +104,7 @@ function ranksToKeyPairs() {
 async function getData(){
   schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?teamNumber="+team});
   results = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode+"?teamNumber="+team });
-  console.log("https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode+"?teamNumber="+team );
-  console.log(results);
+  // console.log("https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode+"?teamNumber="+team );
   allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode });
   rankResponse = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/rankings/"+window.evCode });
   // schedule = await fetch("/testTeamSchedule.json").then(response => response.json());
