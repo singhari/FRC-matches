@@ -136,7 +136,16 @@ async function trackerUpdate(){
     updateTrackerFields("No more matches are", "scheduled for this team", "-", null);
   }else if(latest == null){
     //fix for beginning of a meet
-    updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2), next.getTeamAlliance(), "#2dd334");
+    if(0 == next.matchNumber-1){
+      //in progress
+      updateTrackerFields(next.description, "Match in progress...", "-", next.getTeamAlliance(), "#0e89f3");
+      next.setStatus("In Progress");
+    }else if(0 == next.matchNumber-2){
+      //on deck
+      updateTrackerFields(next.description, "On Deck NOW", "0", next.getTeamAlliance(), "#ff9800");
+    }else{
+      updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2), next.getTeamAlliance(), "#2dd334");
+    }   
   }else if(latest.matchNumber == next.matchNumber-1){
     //in progress
     updateTrackerFields(next.description, "Match in progress...", "-", next.getTeamAlliance(), "#0e89f3");
