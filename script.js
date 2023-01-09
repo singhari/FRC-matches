@@ -1,5 +1,6 @@
 // import { createDivWithClassAndText } from '/helpfulHTML.js';
 import { twoTeamMatch } from '/match.js';
+import { trackedEvent } from './tracker.js';
 
 const list = document.getElementById("match_list");
 const scrollA = document.getElementById("scroll-container-a");
@@ -11,9 +12,11 @@ const counterBorderThing = document.getElementById("counter-container");
 let team = window.num;
 var nextMatch = -1;
 var matches = [];
+var tracker;
 var schedule;
 var results;
 var allResults;
+var allSchedule;
 var rankResponse;
 var autoRefresh;
 //all these functions are async cause i'm too lazy to do async properly (and async is genuinely confusing as well) 
@@ -56,9 +59,10 @@ async function initialize() {
   var rando = document.createElement("div");
   rando.style.height = "2em";
   scrollA.appendChild(rando);
-  console.log("done");
+  
   trackerUpdate();
   updateScroll();
+  console.log("done");
   autoRefresh = setInterval(() => {
     updateEverything();
   }, 30000);
@@ -69,7 +73,7 @@ async function updateEverything(){
     return;
   }
   const rankPairs = ranksToKeyPairs();
-  if(schedule.length != matches.length){
+  if(schedule.schedule.length != matches.length){
     console.log(schedule.length + " - " + matches.length);
     scrollA.innerHTML = "";
     scrollB.innerHTML = "";
@@ -139,7 +143,6 @@ function updateScroll() {
 //updates the tracker: different states based on match in progress, on deck,
 //match upcoming, or the next match needs to increment
 async function trackerUpdate(){
-  const latest = allResults.matches[allResults.matches.length-1];
   var next = matches[nextMatch];
   if(next == null){
     //no more matches
@@ -175,7 +178,6 @@ async function trackerUpdate(){
       updateTrackerFields("No more matches are", "scheduled for this team", "-", null);
     }else{
       trackerUpdate();
-      // updateTrackerFields(next.description, "Rounds until On Deck:", (next.matchNumber-2) - latest.matchNumber, next.getTeamAlliance(), "#2dd334");
     }
   }
 }
