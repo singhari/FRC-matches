@@ -85,6 +85,9 @@ export class twoTeamMatch {
       this.elementB.children[0].children[2].textContent=this.status;
     }
   }
+  setTeam(team){
+    this.teamNumber = team;
+  }
 
   getElementA(){
     return this.elementA;

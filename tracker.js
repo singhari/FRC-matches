@@ -9,8 +9,8 @@ export class trackedEvent {
         this.fields = [];
         this.fieldNumbers = [];
         this.teamMatches = [];
-        for (let index = 0; index < matchSchedule.schedule.length; index++) {
-            const element = matchSchedule.schedule[index];
+        for (let index = 0; index < matchSchedule.length; index++) {
+            const element = matchSchedule[index];
             if (!this.fieldNumbers.includes(element.field)) {
                 console.log("new field");
                 this.fields.push(new trackedField(element.field, matchSchedule, matchResultData));
@@ -19,20 +19,29 @@ export class trackedEvent {
         }
         for (let index = 0; index < teamSchedule.schedule.length; index++) {
             const scheduleElement = teamSchedule.schedule[index];
-            console.log(scheduleElement);
             const el = this.fields[this.fieldNumbers.indexOf(scheduleElement.field)].getMatch(scheduleElement.description);
-            console.log(el);
             this.teamMatches.push(el);       
+            el.setTeam(team);
             el.createElements();
         }
         // this.updateMatchNumbers(matchSchedule, matchResultData);
 
     }
-    updateScores(matchResultData){
-        
+    addElements(scrollA, scrollB){
+        this.teamMatches.forEach(element => {
+            scrollA.appendChild(element.getElementA());
+            scrollB.appendChild(element.getElementB());
+        });
     }
-    updateStatus(matchResultData){
-
+    updateScoresAndStatus(matchResultData){
+        this.fields.forEach(element => {
+            element.updateMatchNumber(matchResultData);
+        });
+    }
+    updateRanks(ranks){
+        this.teamMatches.forEach(element => {
+            element.updateRankings(ranks);
+        });
     }
 }
 class trackedField {
@@ -50,9 +59,9 @@ class trackedField {
     build(matchSchedule) {
         this.matches = [];
         let ind = 0;
-        for (let index = 0; index < matchSchedule.schedule.length; index++) {
+        for (let index = 0; index < matchSchedule.length; index++) {
             // console.log("LOOP : " + index + " Arr IND:" + ind);
-            const element = matchSchedule.schedule[index];
+            const element = matchSchedule[index];
 
             if (element.field == this.fieldNumber) {
                 this.matches[ind] = new twoTeamMatch(element.description, "Upcoming",
@@ -80,6 +89,7 @@ class trackedField {
                 }
                 this.lastMatch = ind;
                 this.matches[ind].setStatus("Completed");
+                this.matches[ind].setScore(result.scoreRedFinal, result.scoreBlueFinal);
                 ind++;
                 if(ind >= this.matches.length){
                     return;
