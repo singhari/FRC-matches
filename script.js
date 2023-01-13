@@ -10,8 +10,6 @@ const counter =  document.getElementById("counter");
 const allianceIndicator = document.getElementById("alliance");
 const counterBorderThing = document.getElementById("counter-container");
 let team = window.num;
-var nextMatch = -1;
-var matches = [];
 var tracker;
 var schedule;
 var allSchedule;
@@ -36,11 +34,13 @@ async function initialize() {
   tracker.addElements(scrollA, scrollB);
   tracker.updateRanks(rankPairs);
   //spacing for the infinite scrolling "wraparound"
-  var rando = document.createElement("div");
+  const rando = document.createElement("div");
   rando.style.height = "2em";
   scrollA.appendChild(rando);
   
   // statusUpdate();
+  console.log(tracker.getNextNum());
+  updateScroll();
   console.log("done");
   autoRefresh = setInterval(() => {
     updateEverything();
@@ -52,8 +52,24 @@ async function updateEverything(){
     return;
   }
   const rankPairs = ranksToKeyPairs();
-  tracker.updateScoresAndStatus(allResults);
-  tracker.updateRanks(rankPairs);
+  if(tracker.isChanged(allSchedule)){
+    console.log("reeeee set");
+    scrollA.innerHTML = "";
+    scrollB.innerHTML = "";
+    tracker = new trackedEvent(allSchedule, allResults, window.num, schedule);
+    tracker.addElements(scrollA, scrollB);
+    tracker.updateRanks(rankPairs);
+    const rando = document.createElement("div");
+    rando.style.height = "2em";
+    scrollA.appendChild(rando);
+    updateScroll();
+    console.log("reset complete");
+  }else{
+    
+    tracker.updateScoresAndStatus(allResults);
+    tracker.updateRanks(rankPairs);
+  }
+ 
   // statusUpdate();
 }
 //makes it so you can feed in team number to array and get out the rank (ex: ranks["7159"]==11)
@@ -67,20 +83,29 @@ function ranksToKeyPairs() {
 //gets all of the data at the same time to try and avoid having partially inputted data
 //returns false if at least one of the API calls failed.
 async function getData(){
-  schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?teamNumber="+team});
-  const scheduleQual = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?tournamentLevel=qual"});
-  const schedulePlayoff = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?tournamentLevel=playoff"});
-  // results = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode+"?teamNumber="+team });
-  allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode });
+  // schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?teamNumber="+team});
+  // const scheduleQual = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?tournamentLevel=qual"});
+  // const schedulePlayoff = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?tournamentLevel=playoff"});
+  // // results = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode+"?teamNumber="+team });
+  // allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode });
   rankResponse = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/rankings/"+window.evCode });
-  // schedule = await fetch("/testTeamSchedule.json").then(response => response.json());
+  schedule = await fetch("/testTeamSchedule.json").then(response => response.json());
+  console.log(schedule);
+  allSchedule = await fetch("/testAllSchedule.json").then(response => response.json());
+  allSchedule = allSchedule.schedule;
+  console.log(allSchedule);
   // results = await fetch("/testTeamResults.json").then(response => response.json());
-  // allResults = await fetch("/testMatchResults.json").then(response => response.json());
-  if(schedule.error != undefined || scheduleQual.error != undefined || schedulePlayoff.error != undefined || allResults.error != undefined || rankResponse.error != undefined){
+  allResults = await fetch("/testMatchResults.json").then(response => response.json());
+  console.log(allResults);
+  // if(schedule.error != undefined || scheduleQual.error != undefined || schedulePlayoff.error != undefined || allResults.error != undefined || rankResponse.error != undefined){
+  //   updateTrackerFields("An API error occurred.", "Retrying in 30 seconds...", "X", null, "#f12718");
+  //   return false;
+  // }
+  if(schedule.error != undefined || allResults.error != undefined || rankResponse.error != undefined){
     updateTrackerFields("An API error occurred.", "Retrying in 30 seconds...", "X", null, "#f12718");
     return false;
   }
-  allSchedule = scheduleQual.schedule.concat(schedulePlayoff.schedule);
+  // allSchedule = scheduleQual.schedule.concat(schedulePlayoff.schedule);
 
 }
 //calculates distance, speed, etc for the animation, or turns it off if it all fits
@@ -107,7 +132,7 @@ function updateScroll() {
 //updates the tracker: different states based on match in progress, on deck,
 //match upcoming, or the next match needs to increment
 async function statusUpdate(){
-  var next = matches[nextMatch];
+  const nextNum = tracker.getNextNum()
   if(next == null){
     //no more matches
     updateTrackerFields("No more matches are", "scheduled for this team", "-", null);

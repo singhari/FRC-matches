@@ -8,6 +8,7 @@ import {createDivWithClassAndText, gimmeADivider} from '/helpfulHTML.js';
 export class twoTeamMatch {
   description;
   status;
+  field;
   redTeamA;
   redTeamB;
   redScore;
@@ -18,9 +19,10 @@ export class twoTeamMatch {
   elementB;
   teamNumber;
   hasElements;
-  constructor(description, status, redTeamA, redTeamB, redScore, blueTeamA, blueTeamB, blueScore, teamNumber){
+  constructor(description, status, field, redTeamA, redTeamB, redScore, blueTeamA, blueTeamB, blueScore, teamNumber){
     this.description = description;
     this.status = status;
+    this.field = field;
     this.redTeamA = redTeamA;
     this.redTeamB = redTeamB;
     this.redScore = redScore;

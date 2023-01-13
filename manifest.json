@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "FTC Event Match Display",
     "description": "Lists either all matches in a FTC event or lists matches for a specified team with a \"on deck\" counter.",
-    "version": "0.3",
+    "version": "0.4",
     "action":{
         "default_popup": "extension.html"
     },

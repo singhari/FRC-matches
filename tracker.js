@@ -5,18 +5,22 @@ export class trackedEvent {
     fieldNumbers;
     teamMatches;
     teamNumber;
+
     constructor(matchSchedule, matchResultData, team, teamSchedule) {
         this.fields = [];
         this.fieldNumbers = [];
         this.teamMatches = [];
+        this.totalNumMatches = 0;
         for (let index = 0; index < matchSchedule.length; index++) {
             const element = matchSchedule[index];
             if (!this.fieldNumbers.includes(element.field)) {
                 console.log("new field");
                 this.fields.push(new trackedField(element.field, matchSchedule, matchResultData));
                 this.fieldNumbers.push(element.field);
+
             }
-        }
+        }  
+        console.log(this.fields);
         for (let index = 0; index < teamSchedule.schedule.length; index++) {
             const scheduleElement = teamSchedule.schedule[index];
             const el = this.fields[this.fieldNumbers.indexOf(scheduleElement.field)].getMatch(scheduleElement.description);
@@ -43,6 +47,27 @@ export class trackedEvent {
             element.updateRankings(ranks);
         });
     }
+    isChanged(allSchedule){
+        let totalMatches = 0;
+        this.fields.forEach(element => {
+            totalMatches += element.matches.length
+        });
+        if(totalMatches != allSchedule.length){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    getNextNum(){
+        this.teamMatches.forEach(element => {
+            if(element.status == "In Progress"){
+                return "-";
+            }else if(element.status == "Upcoming"){
+                return this.fields[this.fieldNumbers.indexOf(element.field)].compareMatch(element);
+            }
+        });
+        return -1;
+    }
 }
 class trackedField {
     fieldNumber;
@@ -64,7 +89,7 @@ class trackedField {
             const element = matchSchedule[index];
 
             if (element.field == this.fieldNumber) {
-                this.matches[ind] = new twoTeamMatch(element.description, "Upcoming",
+                this.matches[ind] = new twoTeamMatch(element.description, "Upcoming", this.fieldNumber,
                     element.teams[0].teamNumber, element.teams[1].teamNumber, null, //red
                     element.teams[2].teamNumber, element.teams[3].teamNumber, null); //blue
                 // console.log(this.matches);
@@ -99,14 +124,15 @@ class trackedField {
         }
         this.matches[ind].setStatus("In Progress");
     }
-    getCurrentMatch() {
-        return this.currentMatch
+    compareMatch(match) {
+        console.log(matches.indexOf(match));
+        return matches.indexOf(match)-this.currentMatch;
     }
     getStatusForMatch(matchId){
         return this.matches.find(element => element.description == matchId).status;
     }
     getMatch(matchId){
-        console.log(this.matches.find(element => element.description == matchId));
+        // console.log(this.matches.find(element => element.description == matchId));
         return this.matches.find(element => element.description == matchId);
     }
 }
