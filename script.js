@@ -38,9 +38,10 @@ async function initialize() {
   rando.style.height = "2em";
   scrollA.appendChild(rando);
   
-  // statusUpdate();
+  statusUpdate();
   console.log(tracker.getNextNum());
   updateScroll();
+  
   console.log("done");
   autoRefresh = setInterval(() => {
     updateEverything();
@@ -68,6 +69,7 @@ async function updateEverything(){
     
     tracker.updateScoresAndStatus(allResults);
     tracker.updateRanks(rankPairs);
+    statusUpdate();
   }
  
   // statusUpdate();
