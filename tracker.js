@@ -125,8 +125,8 @@ class trackedField {
         this.matches[ind].setStatus("In Progress");
     }
     compareMatch(match) {
-        console.log(matches.indexOf(match));
-        return matches.indexOf(match)-this.currentMatch;
+        console.log(this.matches.indexOf(match));
+        return this.matches.indexOf(match)-this.currentMatch;
     }
     getStatusForMatch(matchId){
         return this.matches.find(element => element.description == matchId).status;
