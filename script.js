@@ -13,12 +13,12 @@ let team = window.num;
 var tracker;
 var schedule;
 var allSchedule;
-// var results;
 var allResults;
 var rankResponse;
 var autoRefresh;
 //all these functions are async cause i'm too lazy to do async properly (and async is genuinely confusing as well) 
 //the entire program currently assumes that A. the API provides the matches in the order that they would be played B. the schedule api and matches api are in the same order.
+//both of these appear to be true
 
 //pre-init: set title
 document.title = window.num + " - " + window.evCode;
@@ -53,6 +53,7 @@ async function updateEverything(){
     return;
   }
   const rankPairs = ranksToKeyPairs();
+  //literally just creates the event as new as it would be hard to figure out where the new match is
   if(tracker.isChanged(allSchedule)){
     console.log("reeeee set");
     scrollA.innerHTML = "";
@@ -66,7 +67,6 @@ async function updateEverything(){
     updateScroll();
     console.log("reset complete");
   }else{
-    
     tracker.updateScoresAndStatus(allResults);
     tracker.updateRanks(rankPairs);
     statusUpdate();
@@ -84,21 +84,17 @@ function ranksToKeyPairs() {
 }
 //gets all of the data at the same time to try and avoid having partially inputted data
 //returns false if at least one of the API calls failed.
+//lots of the commented out stuff is to replace the live data with fake data for testing
 async function getData(){
   schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?teamNumber="+team});
   const scheduleQual = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?tournamentLevel=qual"});
   const schedulePlayoff = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?tournamentLevel=playoff"});
-  // // results = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode+"?teamNumber="+team });
   allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode });
   rankResponse = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/rankings/"+window.evCode });
   // schedule = await fetch("/testTeamSchedule.json").then(response => response.json());
-  // console.log(schedule);
   // allSchedule = await fetch("/testAllSchedule.json").then(response => response.json());
   // allSchedule = allSchedule.schedule;
-  // console.log(allSchedule);
-  // // results = await fetch("/testTeamResults.json").then(response => response.json());
   // allResults = await fetch("/testMatchResults.json").then(response => response.json());
-  // console.log(allResults);
   if(schedule.error != undefined || scheduleQual.error != undefined || schedulePlayoff.error != undefined || allResults.error != undefined || rankResponse.error != undefined){
     updateTrackerFields("An API error occurred.", "Retrying in 30 seconds...", "X", null, "#f12718");
     return false;
@@ -113,7 +109,9 @@ async function getData(){
 //calculates distance, speed, etc for the animation, or turns it off if it all fits
 function updateScroll() {
   console.log("scroll update");
+  
   if (scrollA.offsetHeight > list.offsetHeight) {
+    //if it doesn't fit, cancel animations if they exist and redo them
     if (scrollA.getAnimations().length != 0) {
       scrollA.getAnimations()[0].cancel();
       scrollB.getAnimations()[0].cancel();
@@ -122,6 +120,7 @@ function updateScroll() {
     scrollA.animate({ top: ["0em", -scrollA.offsetHeight + "px"] }, { duration: scrollA.offsetHeight * 27, easing: "linear", iterations: Infinity });
     scrollB.animate({ top: ["0em", -scrollA.offsetHeight + "px"] }, { duration: scrollA.offsetHeight * 27, easing: "linear", iterations: Infinity });
   } else {
+    //else cancel animations and hide second scroll box
     if (scrollA.getAnimations().length != 0) {
       scrollA.getAnimations()[0].cancel();
       scrollB.getAnimations()[0].cancel();
@@ -129,24 +128,24 @@ function updateScroll() {
     scrollB.style.display = "none";
   }
 }
-//automatically redoes scroll hasn't resized for 500ms after being resized (thanks stackoverflow question #2996431)
+
 
 //updates the tracker: different states based on match in progress, on deck,
 //match upcoming, or the next match needs to increment
 async function statusUpdate(){
-  const nextNum = tracker.getNextNum()
-  if(nextNum == -1){
+  const next = tracker.getNextNum();
+  if(next[0] == -1){
     //no more matches
     updateTrackerFields("No more matches are", "scheduled for this team", "-", null);
-  }else if(nextNum == "-"){
+  }else if(next[0] == "-"){
     //in progress
-    updateTrackerFields(next.description, "Match in progress...", "-", next.getTeamAlliance(), "#0e89f3");
-  }else if(nextNum == 1){
+    updateTrackerFields(next.description, "Match in progress...", "-", next[1].getTeamAlliance(), "#0e89f3");
+  }else if(next[0] == 1){
     //on deck
-    updateTrackerFields(next.description, "On Deck NOW", "0", next.getTeamAlliance(), "#ff9800");
-  }else if(nextNum > 1){
+    updateTrackerFields(next.description, "On Deck NOW", "0", next[1].getTeamAlliance(), "#ff9800");
+  }else if(next[0] > 1){
     //not on deck yet
-    updateTrackerFields(next.description, "Rounds until On Deck:", nextNum-1, next.getTeamAlliance(), "#2dd334");
+    updateTrackerFields(next.description, "Rounds until On Deck:", next[0]-1, next[1].getTeamAlliance(), "#2dd334");
   }
 }
 //dedicated function to update the fields to tidy up the code a bit
@@ -160,6 +159,7 @@ function updateTrackerFields(top, bottom, ctr, alliance, clr){
   }
   
   counter.textContent = ctr;
+  //conversion technology - internal alliance to css
   if(alliance == "red"){
     allianceIndicator.textContent = "RED";
     allianceIndicator.className = "light-ftc-red";
@@ -171,7 +171,10 @@ function updateTrackerFields(top, bottom, ctr, alliance, clr){
     allianceIndicator.className = "very-light-gray";
   }
 }
+//wait a bit before initing
 setTimeout(initialize, 500);
+
+//automatically redoes scroll hasn't resized for 1000ms after being resized (thanks stackoverflow question #2996431)
 window.addEventListener('resize', function() {
   if(this.resizeTimeout) clearTimeout(this.resizeTimeout);
   this.resizeTimeout = setTimeout(function() {

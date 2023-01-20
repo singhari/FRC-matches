@@ -11,6 +11,7 @@ export class trackedEvent {
         this.fieldNumbers = [];
         this.teamMatches = [];
         this.totalNumMatches = 0;
+        //makes the fields, which are themselves a bunch of twoTeamMatches
         for (let index = 0; index < matchSchedule.length; index++) {
             const element = matchSchedule[index];
             if (!this.fieldNumbers.includes(element.field)) {
@@ -20,6 +21,7 @@ export class trackedEvent {
             }
         }  
         console.log(this.fields);
+        //finds the twoTeamMatches corresponding to the team's schedule
         for (let index = 0; index < teamSchedule.schedule.length; index++) {
             const scheduleElement = teamSchedule.schedule[index];
             const el = this.fields[this.fieldNumbers.indexOf(scheduleElement.field)].getMatch(scheduleElement.description);
@@ -46,6 +48,7 @@ export class trackedEvent {
             element.updateRankings(ranks);
         });
     }
+    //detects if the schedule has changed so the main script can reset the tracker
     isChanged(allSchedule){
         let totalMatches = 0;
         this.fields.forEach(element => {
@@ -57,15 +60,27 @@ export class trackedEvent {
             return false;
         }
     }
+    //returns an array: index 0: distance to next match, "-" if in progress, -1 if no more
+    //index 1: match element (current/upcoming), if it exists
     getNextNum(){
-        this.teamMatches.forEach(element => {
+        console.log("call");
+        let ret = {};
+        for (let index = 0; index < this.teamMatches.length; index++) {
+            
+            const element = this.teamMatches[index];
+            console.log("loop");
             if(element.status == "In Progress"){
-                return "-";
-            }else if(element.status == "Upcoming"){
-                return this.fields[this.fieldNumbers.indexOf(element.field)].compareMatch(element);
+                ret[0]="-";
+                ret[1]=element;
+                return ret;
+            }else if(element.status == "Upcoming"){  
+                ret[0]=this.fields[this.fieldNumbers.indexOf(element.field)].compareMatch(element);
+                ret[1]=element;
+                return ret;
             }
-        });
-        return -1;
+        }
+        ret[0]=-1;
+        return ret;
     }
 }
 class trackedField {
@@ -80,6 +95,7 @@ class trackedField {
         this.build(schedule);
         this.updateMatchNumber(resultData);
     }
+    //creates all the matches
     build(matchSchedule) {
         this.matches = [];
         let ind = 0;
@@ -96,15 +112,14 @@ class trackedField {
             }  
         }
     }
+    //updates what match this field is currently on, and updates the scores
     updateMatchNumber(matchResultData) {
         this.currentMatch = -1;
         this.lastMatch = -1;
         let ind = 0;
         for (let index = 0; index < matchResultData.matches.length; index++) {
-            // console.log("RESULT LOOP : " + index + " Arr IND:" + ind);
             const result = matchResultData.matches[index];
             if (result.description == this.matches[ind].description) {
-                // console.log(this.matches);
                 if (index == this.matches.length - 1) {
                      this.currentMatch = -1;
                 } else {
@@ -114,23 +129,28 @@ class trackedField {
                 this.matches[ind].setStatus("Completed");
                 this.matches[ind].setScore(result.scoreRedFinal, result.scoreBlueFinal);
                 ind++;
+             
                 if(ind >= this.matches.length){
                     return;
                 }
             }
             
         }
+        //
         this.matches[ind].setStatus("In Progress");
     }
+    //returns how many matches away this field is from a particular match
     compareMatch(match) {
         console.log(this.matches.indexOf(match));
         return this.matches.indexOf(match)-this.currentMatch;
     }
+
     getStatusForMatch(matchId){
         return this.matches.find(element => element.description == matchId).status;
     }
+    //returns a twoTeamMatch
     getMatch(matchId){
-        // console.log(this.matches.find(element => element.description == matchId));
+
         return this.matches.find(element => element.description == matchId);
     }
 }
