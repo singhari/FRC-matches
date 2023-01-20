@@ -14,7 +14,6 @@ export class trackedEvent {
         for (let index = 0; index < matchSchedule.length; index++) {
             const element = matchSchedule[index];
             if (!this.fieldNumbers.includes(element.field)) {
-                console.log("new field");
                 this.fields.push(new trackedField(element.field, matchSchedule, matchResultData));
                 this.fieldNumbers.push(element.field);
 
@@ -96,7 +95,6 @@ class trackedField {
                 ind++;
             }  
         }
-        console.log(this.matches);
     }
     updateMatchNumber(matchResultData) {
         this.currentMatch = -1;

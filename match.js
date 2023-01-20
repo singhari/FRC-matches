@@ -42,9 +42,7 @@ export class twoTeamMatch {
     }
   }
   setScore(redScore, blueScore){
-    console.log("setting score");
     if(this.redScore == null){
-      console.log("new score");
       this.redScore = redScore;
       this.blueScore = blueScore;
       if(this.hasElements){
