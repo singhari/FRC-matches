@@ -134,18 +134,19 @@ function updateScroll() {
 //match upcoming, or the next match needs to increment
 async function statusUpdate(){
   const next = tracker.getNextNum();
+  console.log(next[0]);
   if(next[0] == -1){
     //no more matches
     updateTrackerFields("No more matches are", "scheduled for this team", "-", null);
   }else if(next[0] == "-"){
     //in progress
-    updateTrackerFields(next.description, "Match in progress...", "-", next[1].getTeamAlliance(), "#0e89f3");
+    updateTrackerFields(next[1].description, "Match in progress...", "-", next[1].getTeamAlliance(), "#0e89f3");
   }else if(next[0] == 1){
     //on deck
-    updateTrackerFields(next.description, "On Deck NOW", "0", next[1].getTeamAlliance(), "#ff9800");
+    updateTrackerFields(next[1].description, "On Deck NOW", "0", next[1].getTeamAlliance(), "#ff9800");
   }else if(next[0] > 1){
     //not on deck yet
-    updateTrackerFields(next.description, "Rounds until On Deck:", next[0]-1, next[1].getTeamAlliance(), "#2dd334");
+    updateTrackerFields(next[1].description, "Rounds until On Deck:", next[0]-1, next[1].getTeamAlliance(), "#2dd334");
   }
 }
 //dedicated function to update the fields to tidy up the code a bit

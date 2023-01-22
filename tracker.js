@@ -114,16 +114,18 @@ class trackedField {
     }
     //updates what match this field is currently on, and updates the scores
     updateMatchNumber(matchResultData) {
-        this.currentMatch = -1;
+        this.currentMatch = 0;
         this.lastMatch = -1;
         let ind = 0;
         for (let index = 0; index < matchResultData.matches.length; index++) {
             const result = matchResultData.matches[index];
+            console.log("LOOP");
             if (result.description == this.matches[ind].description) {
                 if (index == this.matches.length - 1) {
                      this.currentMatch = -1;
                 } else {
-                     this.currentMatch = ind + 1;
+                    
+                     this.currentMatch = ind;
                 }
                 this.lastMatch = ind;
                 this.matches[ind].setStatus("Completed");
@@ -142,6 +144,7 @@ class trackedField {
     //returns how many matches away this field is from a particular match
     compareMatch(match) {
         console.log(this.matches.indexOf(match));
+        console.log(this.currentMatch);
         return this.matches.indexOf(match)-this.currentMatch;
     }
 
