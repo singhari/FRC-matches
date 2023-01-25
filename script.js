@@ -119,6 +119,7 @@ function updateScroll() {
     //SCROLL SPEED HERE (offsetHeight*a number)
     scrollA.animate({ top: ["0em", -scrollA.offsetHeight + "px"] }, { duration: scrollA.offsetHeight * 27, easing: "linear", iterations: Infinity });
     scrollB.animate({ top: ["0em", -scrollA.offsetHeight + "px"] }, { duration: scrollA.offsetHeight * 27, easing: "linear", iterations: Infinity });
+    scrollB.style.display="block";
   } else {
     //else cancel animations and hide second scroll box
     if (scrollA.getAnimations().length != 0) {

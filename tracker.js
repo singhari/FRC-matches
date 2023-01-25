@@ -124,8 +124,8 @@ class trackedField {
                 if (index == this.matches.length - 1) {
                      this.currentMatch = -1;
                 } else {
-                    
-                     this.currentMatch = ind;
+                    console.log("match found");
+                     this.currentMatch = ind+1;
                 }
                 this.lastMatch = ind;
                 this.matches[ind].setStatus("Completed");
