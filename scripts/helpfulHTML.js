@@ -1,3 +1,5 @@
+//Extra things I wrote that were useful in the creation of FTC Matches
+
 //thing that saves 3 lines of code when i want a simple div with class and text
 export function createDivWithClassAndText(classN, text){
   var div = document.createElement("div");

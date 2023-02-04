@@ -1,7 +1,8 @@
-// import { createDivWithClassAndText } from '/helpfulHTML.js';
-// import { twoTeamMatch } from '/match.js';
-import { trackedEvent } from './tracker.js';
+//FTC Matches
+//https://github.com/karsteny/FTC-matches
+//Definitely not the best code in the world, but hey, it works.
 
+import { trackedEvent } from './tracker.js';
 const list = document.getElementById("match_list");
 const scrollA = document.getElementById("scroll-container-a");
 const scrollB = document.getElementById("scroll-container-b");
@@ -16,7 +17,7 @@ var allSchedule;
 var allResults;
 var rankResponse;
 var autoRefresh;
-//all these functions are async cause i'm too lazy to do async properly (and async is genuinely confusing as well) 
+//all these functions are async cause i'm too lazy to do async properly (and async properly is genuinely confusing as well) 
 //the entire program currently assumes that A. the API provides the matches in the order that they would be played B. the schedule api and matches api are in the same order.
 //both of these appear to be true
 
@@ -37,12 +38,9 @@ async function initialize() {
   const rando = document.createElement("div");
   rando.style.height = "2em";
   scrollA.appendChild(rando);
-  
   statusUpdate();
   console.log(tracker.getNextNum());
   updateScroll();
-  
-  console.log("done");
   autoRefresh = setInterval(() => {
     updateEverything();
   }, 30000);

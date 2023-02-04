@@ -1,3 +1,4 @@
+//This evades the CORS policy, and it's why this program cannot be offered as a webpage.
 chrome.runtime.onMessage.addListener(
     function (data, sender, sendResponse) {
         const prom = fetch(data.url, {

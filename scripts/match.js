@@ -1,9 +1,6 @@
-import {createDivWithClassAndText, gimmeADivider} from '/helpfulHTML.js';
-// interface genericMatch {
-//   title;
-//   redScore;
-//   blueScore;
-// }
+//168 lines of poorly indexing HTML elements
+
+import {createDivWithClassAndText, gimmeADivider} from './helpfulHTML.js';
 
 export class twoTeamMatch {
   description;
@@ -171,4 +168,3 @@ export class twoTeamMatch {
     return outerDiv;
   } 
 }
-
