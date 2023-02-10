@@ -17,7 +17,7 @@ var allSchedule;
 var allResults;
 var rankResponse;
 var autoRefresh;
-//all these functions are async cause i'm too lazy to do async properly (and async properly is genuinely confusing as well) 
+//all these functions are async because async properly is genuinely confusing
 //the entire program currently assumes that A. the API provides the matches in the order that they would be played B. the schedule api and matches api are in the same order.
 //both of these appear to be true
 
@@ -53,7 +53,7 @@ async function updateEverything(){
   const rankPairs = ranksToKeyPairs();
   //literally just creates the event as new as it would be hard to figure out where the new match is
   if(tracker.isChanged(allSchedule)){
-    console.log("reeeee set");
+    console.log("reset");
     scrollA.innerHTML = "";
     scrollB.innerHTML = "";
     tracker = new trackedEvent(allSchedule, allResults, window.num, schedule);

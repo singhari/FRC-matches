@@ -68,6 +68,12 @@ html, body {
   color: white;
   margin-bottom: 0.2em;
 }
+#key{
+  position: relative;
+  margin-bottom: 0;
+  z-index: 2;
+  background-color: #444444;
+}
 .match-stat .rank{
   flex: 1.2 1.2 0px;
 
@@ -83,7 +89,6 @@ html, body {
 .match-stat .divider{
   flex: 0 0 2px;
   background: white;
-
 }
 
 #counter-container{
