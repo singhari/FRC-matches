@@ -1,6 +1,6 @@
 //168 lines of poorly indexing HTML elements
 
-import {createDivWithClassAndText, gimmeADivider} from './helpfulHTML.js';
+import { createDivWithClassAndText, gimmeADivider } from './helpfulHTML.js';
 
 export class twoTeamMatch {
   description;
@@ -16,7 +16,7 @@ export class twoTeamMatch {
   elementB;
   teamNumber;
   hasElements;
-  constructor(description, status, field, redTeamA, redTeamB, redScore, blueTeamA, blueTeamB, blueScore, teamNumber){
+  constructor(description, status, field, redTeamA, redTeamB, redScore, blueTeamA, blueTeamB, blueScore, teamNumber) {
     this.description = description;
     this.status = status;
     this.field = field;
@@ -31,28 +31,28 @@ export class twoTeamMatch {
     // this.elementA = this.createHTMLElement();
     // this.elementB = this.createHTMLElement();
   }
-  createElements(){
-    if(!this.hasElements){
+  createElements() {
+    if (!this.hasElements) {
       this.elementA = this.createHTMLElement();
       this.elementB = this.createHTMLElement();
       this.hasElements = true;
     }
   }
-  setScore(redScore, blueScore){
-    if(this.redScore == null){
+  setScore(redScore, blueScore) {
+    if (this.redScore == null) {
       this.redScore = redScore;
       this.blueScore = blueScore;
-      if(this.hasElements){
-        this.elementA.children[1].children[8].textContent=this.redScore;
-        this.elementA.children[1].children[10].textContent=this.blueScore;
-        this.elementB.children[1].children[8].textContent=this.redScore;
-        this.elementB.children[1].children[10].textContent=this.blueScore;
-        if(this.redScore > this.blueScore){
+      if (this.hasElements) {
+        this.elementA.children[1].children[8].textContent = this.redScore;
+        this.elementA.children[1].children[10].textContent = this.blueScore;
+        this.elementB.children[1].children[8].textContent = this.redScore;
+        this.elementB.children[1].children[10].textContent = this.blueScore;
+        if (this.redScore > this.blueScore) {
           this.elementA.children[1].children[8].className = "light-ftc-red score bold";
           this.elementB.children[1].children[8].className = "light-ftc-red score bold";
           this.elementA.children[1].children[10].className = "light-ftc-blue score";
           this.elementB.children[1].children[10].className = "light-ftc-blue score";
-        }else if(this.blueScore > this.redScore){
+        } else if (this.blueScore > this.redScore) {
           this.elementA.children[1].children[10].className = "light-ftc-blue score bold";
           this.elementB.children[1].children[10].className = "light-ftc-blue score bold";
           this.elementA.children[1].children[8].className = "light-ftc-red score";
@@ -62,44 +62,43 @@ export class twoTeamMatch {
     }
   }
   //takes in the key-pair list for rankings and applies it
-  updateRankings(rankList){
-    if(this.hasElements){
-      this.elementA.children[1].children[0].textContent=rankList[this.elementA.children[1].children[2].textContent];
-      this.elementA.children[1].children[4].textContent=rankList[this.elementA.children[1].children[6].textContent];
-      this.elementA.children[1].children[12].textContent=rankList[this.elementA.children[1].children[14].textContent];
-      this.elementA.children[1].children[16].textContent=rankList[this.elementA.children[1].children[18].textContent];
-      this.elementB.children[1].children[0].textContent=rankList[this.elementA.children[1].children[2].textContent];
-      this.elementB.children[1].children[4].textContent=rankList[this.elementA.children[1].children[6].textContent];
-      this.elementB.children[1].children[12].textContent=rankList[this.elementA.children[1].children[14].textContent];
-      this.elementB.children[1].children[16].textContent=rankList[this.elementA.children[1].children[18].textContent];
+  updateRankings(rankList) {
+    if (this.hasElements) {
+      this.elementA.children[1].children[0].textContent = rankList[this.elementA.children[1].children[2].textContent];
+      this.elementA.children[1].children[4].textContent = rankList[this.elementA.children[1].children[6].textContent];
+      this.elementA.children[1].children[12].textContent = rankList[this.elementA.children[1].children[14].textContent];
+      this.elementA.children[1].children[16].textContent = rankList[this.elementA.children[1].children[18].textContent];
+      this.elementB.children[1].children[0].textContent = rankList[this.elementA.children[1].children[2].textContent];
+      this.elementB.children[1].children[4].textContent = rankList[this.elementA.children[1].children[6].textContent];
+      this.elementB.children[1].children[12].textContent = rankList[this.elementA.children[1].children[14].textContent];
+      this.elementB.children[1].children[16].textContent = rankList[this.elementA.children[1].children[18].textContent];
     }
   }
   //sets that upper right hand box
-  setStatus(status){
+  setStatus(status) {
     this.status = status;
-    if(this.hasElements){
-      this.elementA.children[0].children[2].textContent=this.status;
-      this.elementB.children[0].children[2].textContent=this.status;
+    if (this.hasElements) {
+      this.elementA.children[0].children[2].textContent = this.status;
+      this.elementB.children[0].children[2].textContent = this.status;
     }
   }
-  setTeam(team){
+  setTeam(team) {
     this.teamNumber = team;
   }
-
-  getElementA(){
+  getElementA() {
     return this.elementA;
   }
-  getElementB(){
+  getElementB() {
     return this.elementB;
   }
-  getTeamAlliance(){
-    if(this.redTeamA == this.teamNumber || this.redTeamB == this.teamNumber) return "red";
-    else if(this.blueTeamA == this.teamNumber || this.blueTeamB == this.teamNumber) return "blue";
+  getTeamAlliance() {
+    if (this.redTeamA == this.teamNumber || this.redTeamB == this.teamNumber) return "red";
+    else if (this.blueTeamA == this.teamNumber || this.blueTeamB == this.teamNumber) return "blue";
     else return null;
   }
 
   //literally makes an entire 2 elements for the scrolling list
-  createHTMLElement(){
+  createHTMLElement() {
     var outerDiv = document.createElement("div");
     //boring white header
     var header = document.createElement("div");
@@ -114,57 +113,57 @@ export class twoTeamMatch {
     matchStat.appendChild(createDivWithClassAndText("dark-ftc-red rank", ""));
     matchStat.appendChild(gimmeADivider());
     //ifs that look like this -> check for team number to bold it
-    if(this.redTeamA == this.teamNumber){
+    if (this.redTeamA == this.teamNumber) {
       matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team bold", this.redTeamA));
-    }else{
+    } else {
       matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team", this.redTeamA));
     }
     matchStat.appendChild(gimmeADivider());
     matchStat.appendChild(createDivWithClassAndText("dark-ftc-red rank", ""));
     matchStat.appendChild(gimmeADivider());
-    if(this.redTeamB == this.teamNumber){
+    if (this.redTeamB == this.teamNumber) {
       matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team bold", this.redTeamB));
-    }else{
+    } else {
       matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team", this.redTeamB));
     }
     matchStat.appendChild(gimmeADivider());
-    if(this.redScore == null){
+    if (this.redScore == null) {
       //no score
       matchStat.appendChild(createDivWithClassAndText("very-light-gray score", ""));
       matchStat.appendChild(gimmeADivider());
       matchStat.appendChild(createDivWithClassAndText("very-light-gray score", ""));
       matchStat.appendChild(gimmeADivider());
-    }else{
+    } else {
       //checking which score is bigger and bolding it -> these 2 if-else statements
-      if(this.redScore > this.blueScore){
+      if (this.redScore > this.blueScore) {
         matchStat.appendChild(createDivWithClassAndText("light-ftc-red score bold", this.redScore));
-      }else{
+      } else {
         matchStat.appendChild(createDivWithClassAndText("light-ftc-red score", this.redScore));
       }
       matchStat.appendChild(gimmeADivider());
-      if(this.blueScore > this.redScore){
+      if (this.blueScore > this.redScore) {
         matchStat.appendChild(createDivWithClassAndText("light-ftc-blue score bold", this.blueScore));
-      }else{
+      } else {
         matchStat.appendChild(createDivWithClassAndText("light-ftc-blue score", this.blueScore));
       }
       matchStat.appendChild(gimmeADivider());
     }
     matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue rank", ""));
     matchStat.appendChild(gimmeADivider());
-    if(this.blueTeamA == this.teamNumber){
+    if (this.blueTeamA == this.teamNumber) {
       matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team bold", this.blueTeamA));
-    }else{
+    } else {
       matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team", this.blueTeamA));
     }
     matchStat.appendChild(gimmeADivider());
     matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue rank", ""));
     matchStat.appendChild(gimmeADivider());
-    if(this.blueTeamB == this.teamNumber){
+    if (this.blueTeamB == this.teamNumber) {
       matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team bold", this.blueTeamB));
-    }else{
+    } else {
       matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team", this.blueTeamB));
     }
     outerDiv.appendChild(matchStat);
     return outerDiv;
-  } 
+  }
 }
