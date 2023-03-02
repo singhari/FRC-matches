@@ -98,4 +98,89 @@ export class threeTeamMatch {
         else if (this.blueTeamA == this.teamNumber || this.blueTeamB == this.teamNumber || this.blueTeamC == this.teamNumber) return "blue";
         else return null;
     }
+
+    createHTMLElement() {
+        var outerDiv = document.createElement("div");
+        //boring white header
+        var header = document.createElement("div");
+        header.className = "match-header";
+        header.appendChild(createDivWithClassAndText("", this.description));
+        header.appendChild(gimmeADivider());
+        header.appendChild(createDivWithClassAndText("", this.status))
+        outerDiv.appendChild(header);
+        //the colorful stuff
+        var matchStat = document.createElement("div");
+        matchStat.className = "match-stat";
+        matchStat.appendChild(createDivWithClassAndText("dark-ftc-red rank", ""));
+        matchStat.appendChild(gimmeADivider());
+        //ifs that look like this -> check for team number to bold it
+        if (this.redTeamA == this.teamNumber) {
+          matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team bold", this.redTeamA));
+        } else {
+          matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team", this.redTeamA));
+        }
+        matchStat.appendChild(gimmeADivider());
+        matchStat.appendChild(createDivWithClassAndText("dark-ftc-red rank", ""));
+        matchStat.appendChild(gimmeADivider());
+        if (this.redTeamB == this.teamNumber) {
+          matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team bold", this.redTeamB));
+        } else {
+          matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team", this.redTeamB));
+        }
+        matchStat.appendChild(gimmeADivider());
+        matchStat.appendChild(createDivWithClassAndText("dark-ftc-red rank", ""));
+        matchStat.appendChild(gimmeADivider());
+        if (this.redTeamC == this.teamNumber) {
+          matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team bold", this.redTeamC));
+        } else {
+          matchStat.appendChild(createDivWithClassAndText("dark-ftc-red team", this.redTeamC));
+        }
+        matchStat.appendChild(gimmeADivider());
+        if (this.redScore == null) {
+          //no score
+          matchStat.appendChild(createDivWithClassAndText("very-light-gray score", ""));
+          matchStat.appendChild(gimmeADivider());
+          matchStat.appendChild(createDivWithClassAndText("very-light-gray score", ""));
+          matchStat.appendChild(gimmeADivider());
+        } else {
+          //checking which score is bigger and bolding it -> these 2 if-else statements
+          if (this.redScore > this.blueScore) {
+            matchStat.appendChild(createDivWithClassAndText("light-ftc-red score bold", this.redScore));
+          } else {
+            matchStat.appendChild(createDivWithClassAndText("light-ftc-red score", this.redScore));
+          }
+          matchStat.appendChild(gimmeADivider());
+          if (this.blueScore > this.redScore) {
+            matchStat.appendChild(createDivWithClassAndText("light-ftc-blue score bold", this.blueScore));
+          } else {
+            matchStat.appendChild(createDivWithClassAndText("light-ftc-blue score", this.blueScore));
+          }
+          matchStat.appendChild(gimmeADivider());
+        }
+        matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue rank", ""));
+        matchStat.appendChild(gimmeADivider());
+        if (this.blueTeamA == this.teamNumber) {
+          matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team bold", this.blueTeamA));
+        } else {
+          matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team", this.blueTeamA));
+        }
+        matchStat.appendChild(gimmeADivider());
+        matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue rank", ""));
+        matchStat.appendChild(gimmeADivider());
+        if (this.blueTeamB == this.teamNumber) {
+          matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team bold", this.blueTeamB));
+        } else {
+          matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team", this.blueTeamB));
+        }
+        matchStat.appendChild(gimmeADivider());
+        matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue rank", ""));
+        matchStat.appendChild(gimmeADivider());
+        if (this.blueTeamC == this.teamNumber) {
+          matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team bold", this.blueTeamC));
+        } else {
+          matchStat.appendChild(createDivWithClassAndText("dark-ftc-blue team", this.blueTeamC));
+        }
+        outerDiv.appendChild(matchStat);
+        return outerDiv;
+      }
 }

@@ -1,6 +1,7 @@
 //This script helps keep track of which match is currently happening, even if there are multiple fields.
 
 import { twoTeamMatch } from "./match.js";
+import { threeTeamMatch } from "./3match.js";
 
 export class trackedEvent {
     fields;
