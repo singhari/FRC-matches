@@ -51,15 +51,15 @@ export class threeTeamMatch {
                 //TODO: FIX THE ELEMENT POSITIONS
                 if (this.redScore > this.blueScore) {
 
-                    this.elementA.children[1].children[8].className = "light-ftc-red score bold";
-                    this.elementB.children[1].children[8].className = "light-ftc-red score bold";
-                    this.elementA.children[1].children[10].className = "light-ftc-blue score";
-                    this.elementB.children[1].children[10].className = "light-ftc-blue score";
+                    this.elementA.children[1].children[12].className = "light-ftc-red score bold";
+                    this.elementB.children[1].children[12].className = "light-ftc-red score bold";
+                    this.elementA.children[1].children[14].className = "light-ftc-blue score";
+                    this.elementB.children[1].children[14].className = "light-ftc-blue score";
                 } else if (this.blueScore > this.redScore) {
-                    this.elementA.children[1].children[10].className = "light-ftc-blue score bold";
-                    this.elementB.children[1].children[10].className = "light-ftc-blue score bold";
-                    this.elementA.children[1].children[8].className = "light-ftc-red score";
-                    this.elementB.children[1].children[8].className = "light-ftc-red score";
+                    this.elementA.children[1].children[14].className = "light-ftc-blue score bold";
+                    this.elementB.children[1].children[14].className = "light-ftc-blue score bold";
+                    this.elementA.children[1].children[12].className = "light-ftc-red score";
+                    this.elementB.children[1].children[12].className = "light-ftc-red score";
                 }
             }
         }
@@ -69,12 +69,16 @@ export class threeTeamMatch {
         if (this.hasElements) {
             this.elementA.children[1].children[0].textContent = rankList[this.elementA.children[1].children[2].textContent];
             this.elementA.children[1].children[4].textContent = rankList[this.elementA.children[1].children[6].textContent];
-            this.elementA.children[1].children[12].textContent = rankList[this.elementA.children[1].children[14].textContent];
+            this.elementA.children[1].children[8].textContent = rankList[this.elementA.children[1].children[10].textContent];
             this.elementA.children[1].children[16].textContent = rankList[this.elementA.children[1].children[18].textContent];
+            this.elementA.children[1].children[20].textContent = rankList[this.elementA.children[1].children[22].textContent];
+            this.elementA.children[1].children[24].textContent = rankList[this.elementA.children[1].children[26].textContent];
             this.elementB.children[1].children[0].textContent = rankList[this.elementA.children[1].children[2].textContent];
             this.elementB.children[1].children[4].textContent = rankList[this.elementA.children[1].children[6].textContent];
-            this.elementB.children[1].children[12].textContent = rankList[this.elementA.children[1].children[14].textContent];
+            this.elementB.children[1].children[8].textContent = rankList[this.elementA.children[1].children[10].textContent];
             this.elementB.children[1].children[16].textContent = rankList[this.elementA.children[1].children[18].textContent];
+            this.elementB.children[1].children[20].textContent = rankList[this.elementA.children[1].children[22].textContent];
+            this.elementB.children[1].children[24].textContent = rankList[this.elementA.children[1].children[26].textContent];
         }
     }
     setStatus(status) {

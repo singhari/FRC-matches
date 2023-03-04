@@ -107,9 +107,16 @@ class trackedField {
             const element = matchSchedule[index];
 
             if (element.field == this.fieldNumber) {
-                this.matches[ind] = new twoTeamMatch(element.description, "Upcoming", this.fieldNumber,
+                if(element.teams.length>4){
+                    this.matches[ind] = new twoTeamMatch(element.description, "Upcoming", this.fieldNumber,
+                    element.teams[0].teamNumber, element.teams[1].teamNumber, element.teams[2].teamNumber, null, //red
+                    element.teams[3].teamNumber, element.teams[4].teamNumber, element.teams[5].teamNumber, null);
+                }else{
+                    this.matches[ind] = new twoTeamMatch(element.description, "Upcoming", this.fieldNumber,
                     element.teams[0].teamNumber, element.teams[1].teamNumber, null, //red
                     element.teams[2].teamNumber, element.teams[3].teamNumber, null); //blue
+                }
+
                 // console.log(this.matches);
                 ind++;
             }  
