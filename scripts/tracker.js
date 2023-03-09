@@ -107,8 +107,9 @@ class trackedField {
             const element = matchSchedule[index];
 
             if (element.field == this.fieldNumber) {
+                console.log(element.teams.length);
                 if(element.teams.length>4){
-                    this.matches[ind] = new twoTeamMatch(element.description, "Upcoming", this.fieldNumber,
+                    this.matches[ind] = new threeTeamMatch(element.description, "Upcoming", this.fieldNumber,
                     element.teams[0].teamNumber, element.teams[1].teamNumber, element.teams[2].teamNumber, null, //red
                     element.teams[3].teamNumber, element.teams[4].teamNumber, element.teams[5].teamNumber, null);
                 }else{

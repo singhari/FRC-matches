@@ -158,3 +158,8 @@ html, body {
   text-decoration: underline;
   font-weight: bold;
 }
+@media(max-width: 1300px){
+  .logo{
+    display: none;
+  }
+}
