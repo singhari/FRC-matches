@@ -12,7 +12,7 @@ const allianceIndicator = document.getElementById("alliance");
 const counterBorderThing = document.getElementById("counter-container");
 let team = window.num;
 var tracker;
-var schedule;
+var teamSchedule;
 var allSchedule;
 var allResults;
 var rankResponse;
@@ -31,7 +31,7 @@ async function initialize() {
     return;
   }
   const rankPairs = ranksToKeyPairs();
-  tracker = new trackedEvent(allSchedule, allResults, window.num, schedule);
+  tracker = new trackedEvent(allSchedule, allResults, window.num, teamSchedule);
   tracker.addElements(scrollA, scrollB);
   tracker.updateRanks(rankPairs);
   //spacing for the infinite scrolling "wraparound"
@@ -56,7 +56,7 @@ async function updateEverything(){
     console.log("reset");
     scrollA.innerHTML = "";
     scrollB.innerHTML = "";
-    tracker = new trackedEvent(allSchedule, allResults, window.num, schedule);
+    tracker = new trackedEvent(allSchedule, allResults, window.num, teamSchedule);
     tracker.addElements(scrollA, scrollB);
     tracker.updateRanks(rankPairs);
     const rando = document.createElement("div");
@@ -84,7 +84,7 @@ function ranksToKeyPairs() {
 //returns false if at least one of the API calls failed.
 //lots of the commented out stuff is to replace the live data with fake data for testing
 async function getData(){
-  schedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?teamNumber="+team});
+  teamSchedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?teamNumber="+team});
   const scheduleQual = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?tournamentLevel=qual"});
   const schedulePlayoff = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/"+window.evCode+"?tournamentLevel=playoff"});
   allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/"+window.evCode });
@@ -93,14 +93,10 @@ async function getData(){
   // allSchedule = await fetch("/testAllSchedule.json").then(response => response.json());
   // allSchedule = allSchedule.schedule;
   // allResults = await fetch("/testMatchResults.json").then(response => response.json());
-  if(schedule.error != undefined || scheduleQual.error != undefined || schedulePlayoff.error != undefined || allResults.error != undefined || rankResponse.error != undefined){
+  if(teamSchedule.error != undefined || scheduleQual.error != undefined || schedulePlayoff.error != undefined || allResults.error != undefined || rankResponse.error != undefined){
     updateTrackerFields("An API error occurred.", "Retrying in 30 seconds...", "X", null, "#f12718");
     return false;
   }
-  // if(schedule.error != undefined || allResults.error != undefined || rankResponse.error != undefined){
-  //   updateTrackerFields("An API error occurred.", "Retrying in 30 seconds...", "X", null, "#f12718");
-  //   return false;
-  // }
   allSchedule = scheduleQual.schedule.concat(schedulePlayoff.schedule);
 
 }

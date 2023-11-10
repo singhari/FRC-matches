@@ -28,7 +28,7 @@ html, body {
   flex: 1 1 auto;
   margin-bottom: 2rem;
   margin-top: 2rem;
-  background: #999999;
+  background: #777777;
   border: 3px solid black;
   width:74rem;
   font-size: 30px;
@@ -46,18 +46,24 @@ html, body {
 .match-header{
   display: flex;
   justify-content: space-between;
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
+  border-top: 2px solid white;
   background: white;
 }
-.match-header div{
-  flex: 1 1 0px;
-
+.match-header .info{
+  flex: 2 2 0px;
+  border-bottom: 2px solid white;
+  color: black;
 }
+
+.match-header .score{
+  flex: 1 1 0px;
+  border-bottom: 2px solid white;
+  color: white;
+}
+
 .match-header .divider{
   flex: 0 0 2px;
-  background: black;
-
+  background: white;
 }
 
 .match-stat{
@@ -65,29 +71,39 @@ html, body {
   justify-content: center;
   border-bottom: 2px solid white;
   color: white;
-  margin-bottom: 0.2em;
+  margin-bottom: 0.3em;
 }
-#key{
-  position: relative;
-  margin-bottom: 0;
-  z-index: 2;
-  background-color: #444444;
-}
-.match-stat .rank{
-  flex: 1.2 1.2 0px;
 
+.match-stat div{
+  flex: 1 1 0px;
+  min-width: 0;
 }
-.match-stat .team{
-  flex: 2.8 2.8 0px;
 
-}
-.match-stat .score{
-  flex: 2 2 0px;
+/* .match-stat .rank{
+  padding-right: 0.6rem;
+  font-size: 17px;
+} */
 
-}
 .match-stat .divider{
   flex: 0 0 2px;
   background: white;
+}
+
+.match-stat .team-name{
+  font-size: 17px;
+  overflow: hidden;
+  white-space: nowrap;  
+  text-overflow: ellipsis;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+}
+
+.led{
+  align-items: center;
+  justify-content: center;
+  background: black;
+  color: orange;
+  font-family: 'lcd_phoneregular', Roboto, Helvetica, Arial;
 }
 
 #counter-container{
@@ -122,12 +138,7 @@ html, body {
 #counter-container #counter{
   flex: 0 1 200px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: black;
-  color: orange;
   font-size: 100px;
-  font-family: 'lcd_phoneregular', Roboto, Helvetica, Arial;
 }
 
 #counter-container #alliance{
@@ -158,6 +169,7 @@ html, body {
   text-decoration: underline;
   font-weight: bold;
 }
+
 @media(max-width: 1300px){
   .logo{
     display: none;

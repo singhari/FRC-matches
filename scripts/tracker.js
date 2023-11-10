@@ -14,7 +14,7 @@ export class trackedEvent {
         this.fieldNumbers = [];
         this.teamMatches = [];
         this.totalNumMatches = 0;
-        //makes the fields, which are themselves a bunch of twoTeamMatches
+        //makes the fields, which are themselves a bunch of twoTeamMatches or threeTeamMatches
         for (let index = 0; index < matchSchedule.length; index++) {
             const element = matchSchedule[index];
             if (!this.fieldNumbers.includes(element.field)) {
@@ -24,7 +24,8 @@ export class trackedEvent {
             }
         }  
         console.log(this.fields);
-        //finds the twoTeamMatches corresponding to the team's schedule
+        //Grab an element from teamSchedule (raw API data), and find the Match that corresponds to it
+        //Then save it, and set the team on that element 
         for (let index = 0; index < teamSchedule.schedule.length; index++) {
             const scheduleElement = teamSchedule.schedule[index];
             const el = this.fields[this.fieldNumbers.indexOf(scheduleElement.field)].getMatch(scheduleElement.description);
@@ -63,13 +64,14 @@ export class trackedEvent {
             return false;
         }
     }
-    //returns an array: index 0: distance to next match, "-" if in progress, -1 if no more
+    //returns an array: 
+    //index 0: distance to next match, "-" if in progress, -1 if no more
     //index 1: match element (current/upcoming), if it exists
+    //Logic: Goes through all the elements, looks at the statues, finds the first one that isn't "Completed", does its thing
     getNextNum(){
         console.log("call");
         let ret = {};
         for (let index = 0; index < this.teamMatches.length; index++) {
-            
             const element = this.teamMatches[index];
             console.log("loop");
             if(element.status == "In Progress"){
@@ -87,10 +89,10 @@ export class trackedEvent {
     }
 }
 class trackedField {
-    fieldNumber;
-    currentMatch;
-    lastMatch;
-    matches;
+    fieldNumber; //number
+    currentMatch; //index of a match in matches
+    lastMatch; //index of a match in matches
+    matches; //Array of Matches
     
     constructor(fieldNumber, schedule, resultData) {
         // console.log("fn: " + fieldNumber + " BEGIN");
@@ -110,12 +112,12 @@ class trackedField {
                 console.log(element.teams.length);
                 if(element.teams.length>4){
                     this.matches[ind] = new threeTeamMatch(element.description, "Upcoming", this.fieldNumber,
-                    element.teams[0].teamNumber, element.teams[1].teamNumber, element.teams[2].teamNumber, null, //red
-                    element.teams[3].teamNumber, element.teams[4].teamNumber, element.teams[5].teamNumber, null);
+                    element.teams[0], element.teams[1], element.teams[2], null, //red
+                    element.teams[3], element.teams[4], element.teams[5], null);
                 }else{
                     this.matches[ind] = new twoTeamMatch(element.description, "Upcoming", this.fieldNumber,
-                    element.teams[0].teamNumber, element.teams[1].teamNumber, null, //red
-                    element.teams[2].teamNumber, element.teams[3].teamNumber, null); //blue
+                    element.teams[0], element.teams[1], null, //red
+                    element.teams[2], element.teams[3], null); //blue
                 }
 
                 // console.log(this.matches);
@@ -162,9 +164,8 @@ class trackedField {
     getStatusForMatch(matchId){
         return this.matches.find(element => element.description == matchId).status;
     }
-    //returns a twoTeamMatch
+    //returns a Match
     getMatch(matchId){
-
         return this.matches.find(element => element.description == matchId);
     }
 }

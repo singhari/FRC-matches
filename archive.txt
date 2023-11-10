@@ -1,29 +1,54 @@
         <div class = "match-header">
-          <div>Qualification 3</div>
-          <div class="divider"></div>
-          <div>Completed</div>
-        </div>
-        <div class="match-stat">
-          <div class="dark-ftc-red rank">13</div>
-          <div class="divider"></div>
-          <div class="dark-ftc-red team">14338</div>
-          <div class="divider"></div>
-          <div class="dark-ftc-red rank">14</div>
-          <div class="divider"></div>
-          <div class="dark-ftc-red team">22316</div>
-          <div class="divider"></div>
-          <div class="light-ftc-red score">48</div>
-          <div class="divider"></div>
-          <div class="light-ftc-blue score">46</div>
-          <div class="divider"></div>
-          <div class="dark-ftc-blue rank">11</div>
-          <div class="divider"></div>
-          <div class="dark-ftc-blue team">7159</div>
-          <div class="divider"></div>archive.txt
-          <div class="dark-ftc-blue rank">8</div>
-          <div class="divider"></div>
-          <div class="dark-ftc-blue team">5015</div>
-        </div>
+            <div class = "info">Qualification 1</div>
+            <div class="divider"></div>
+            <div class="light-ftc-red score bold">999 pts</div>
+            <div class="divider"></div>
+            <div class="light-ftc-blue score">998 pts</div>
+            <div class="divider"></div>
+            <div class = "info">Completed</div>
+          </div>
+          <div class="match-stat">
+            <div class="dark-ftc-red team">
+              <span class = "rank">#13</span><span class = "bold">7159</span>
+              <div class="team-name">Robo Ravens</div>
+            </div>
+            <div class="divider"></div>
+            <div class="dark-ftc-red team">
+              <span class = "rank">#4</span><span class = "">18568</span>
+              <div class="team-name">Minimum Viable Product</div>
+            </div>
+            <div class="divider"></div>
+            <div class="dark-ftc-blue team">
+              <span class = "rank">#16</span><span class = "">9049</span>
+              <div class="team-name">RoboPuffs</div>
+            </div>
+            <div class="divider"></div>
+            <div class="dark-ftc-blue team">
+              <span class = "rank">#15</span><span class = "">14496</span>
+              <div class="team-name">Roboctopi</div>
+            </div>
+          </div>
 
+        <div class="match-stat" id="key">
+          <div class="rank">Rk</div>
+          <div class="divider"></div>
+          <div class="team">Team</div>
+          <div class="divider"></div>
+          <div class="rank">Rk</div>
+          <div class="divider"></div>
+          <div class="team">Team</div>
+          <div class="divider"></div>
+          <div class="score">RED</div>
+          <div class="divider"></div>
+          <div class="score">BLU</div>
+          <div class="divider"></div>
+          <div class="rank">Rk</div>
+          <div class="divider"></div>
+          <div class="team">Team</div>
+          <div class="divider"></div>
+          <div class="rank">Rk</div>
+          <div class="divider"></div>
+          <div class="team">Team</div>
+        </div>
 
 0 rank 1 div 2 RTA 3 div 4 rank 5 div 6 RTB 7 div 8 RTS 9 div 10 BTS 11 div 12 rank 13 div 14 BTA 15 div 16 rank 17 div 18 BTB
