@@ -75,7 +75,7 @@ export class threeTeamMatch {
           this.elementA.children[1].children[8].children[1].textContent = 
             "#"+rankList[this.blueTeamB.teamNumber]+" | "+this.blueTeamB.teamName;
           this.elementA.children[1].children[10].children[1].textContent = 
-            "#"+rankList[this.blueTeamB.teamNumber]+" | "+this.blueTeamB.teamName;
+            "#"+rankList[this.blueTeamC.teamNumber]+" | "+this.blueTeamC.teamName;
 
           this.elementB.children[1].children[0].children[1].textContent = 
             "#"+rankList[this.redTeamA.teamNumber]+" | "+this.redTeamA.teamName;
@@ -88,7 +88,7 @@ export class threeTeamMatch {
           this.elementB.children[1].children[8].children[1].textContent = 
             "#"+rankList[this.blueTeamB.teamNumber]+" | "+this.blueTeamB.teamName;
           this.elementB.children[1].children[10].children[1].textContent = 
-            "#"+rankList[this.blueTeamB.teamNumber]+" | "+this.blueTeamB.teamName;
+            "#"+rankList[this.blueTeamC.teamNumber]+" | "+this.blueTeamC.teamName;
 
             // this.elementA.children[1].children[0].textContent = rankList[this.elementA.children[1].children[2].textContent];
             // this.elementA.children[1].children[4].textContent = rankList[this.elementA.children[1].children[6].textContent];
