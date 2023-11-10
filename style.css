@@ -101,9 +101,9 @@ html, body {
 .led{
   align-items: center;
   justify-content: center;
-  background: black;
-  color: orange;
-  font-family: 'lcd_phoneregular', Roboto, Helvetica, Arial;
+  background: #000000;
+  color: #ffc800;
+  font-family: 'lcd_phoneregular', Arial;
 }
 
 #counter-container{
@@ -147,6 +147,21 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#dt{
+  font-size: 55px;
+  text-align: center;
+}
+.equal{
+  display: inline-block;
+  width: 0.63em;
+  height: 1em;
+  margin-right: 0.02em;
+  margin-left: 0.02em;
+  transition-property: color;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in;
 }
 
 .light-ftc-blue{
