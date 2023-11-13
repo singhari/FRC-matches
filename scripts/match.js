@@ -3,21 +3,27 @@
 import { createDivWithClassAndText, gimmeADivider, createTeamDiv } from './helpfulHTML.js';
 
 export class twoTeamMatch {
-  description;
-  status;
-  field;
+  description; //"qualification 69"
+  series; //only used for semifinals
+  matchNumber;
+  tournamentLevel; //"QUALIFICATION", "SEMIFINAL", or "FINAL"
+  status; //"in progress"
+  field; //a number
   redTeamA; //not just a number anymore
   redTeamB;
-  redScore;
+  redScore; 
   blueTeamA;
   blueTeamB;
   blueScore;
-  elementA;
+  elementA; //html elements
   elementB;
   teamNumber;
-  hasElements;
-  constructor(description, status, field, redTeamA, redTeamB, redScore, blueTeamA, blueTeamB, blueScore, teamNumber) {
+  hasElements; 
+  constructor(description, series, matchNumber, tournamentLevel, status, field, redTeamA, redTeamB, redScore, blueTeamA, blueTeamB, blueScore, teamNumber) {
     this.description = description;
+    this.series = series;
+    this.matchNumber = matchNumber;
+    this.tournamentLevel = tournamentLevel;
     this.status = status;
     this.field = field;
     this.redTeamA = redTeamA;

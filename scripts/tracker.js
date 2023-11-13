@@ -64,23 +64,36 @@ export class trackedEvent {
             return false;
         }
     }
+
     //returns an array: 
-    //index 0: distance to next match, "-" if in progress, -1 if no more
+    //index 0: distance to next match, 0 if in progress, -1 if no more, -2 if none in the first plcae
     //index 1: match element (current/upcoming), if it exists
+    //index 2: ONLY IF CURRENT MATCH IN PROGRESS: distance to match after if one exists, -1 if not 
+    //index 3: ONLY IF CURRENT MATCH IN PROGRESS: match after this element (if next match exists)
     //Logic: Goes through all the elements, looks at the statues, finds the first one that isn't "Completed", does its thing
     getNextNum(){
-        console.log("call");
+        // console.log("call");
         let ret = {};
+        if(this.teamMatches.length == 0){
+            ret[0] = -2;
+            return ret;
+        }
         for (let index = 0; index < this.teamMatches.length; index++) {
-            const element = this.teamMatches[index];
-            console.log("loop");
-            if(element.status == "In Progress"){
-                ret[0]="-";
-                ret[1]=element;
+            const match = this.teamMatches[index];
+            // console.log("loop");
+            if(match.status == "In Progress"){
+                ret[0]=0;
+                ret[1]=match;
+                if(this.teamMatches[index+1] != null){
+                    ret[2] = this.fields[this.fieldNumbers.indexOf(this.teamMatches[index+1].field)].compareMatch(this.teamMatches[index+1]);
+                    ret[3] = this.teamMatches[index+1];
+                }else{
+                    ret[2] = -1;
+                }
                 return ret;
-            }else if(element.status == "Upcoming"){  
-                ret[0]=this.fields[this.fieldNumbers.indexOf(element.field)].compareMatch(element);
-                ret[1]=element;
+            }else if(match.status == "Upcoming"){  
+                ret[0]=this.fields[this.fieldNumbers.indexOf(match.field)].compareMatch(match);
+                ret[1]=match;
                 return ret;
             }
         }
@@ -107,17 +120,27 @@ class trackedField {
         for (let index = 0; index < matchSchedule.length; index++) {
             // console.log("LOOP : " + index + " Arr IND:" + ind);
             const element = matchSchedule[index];
-
             if (element.field == this.fieldNumber) {
                 console.log(element.teams.length);
-                if(element.teams.length>4){
-                    this.matches[ind] = new threeTeamMatch(element.description, "Upcoming", this.fieldNumber,
-                    element.teams[0], element.teams[1], element.teams[2], null, //red
-                    element.teams[3], element.teams[4], element.teams[5], null);
+                //FTC put the teams out of order... this is to avoid iterating over 6 times... 
+                var orderedTeams = [];
+                for(let i = 0; i<element.teams.length; i++){
+                    if(element.teams[i].station == "Red1") orderedTeams[0] = element.teams[i];
+                    else if(element.teams[i].station == "Red2") orderedTeams[1] = element.teams[i];
+                    else if(element.teams[i].station == "Red3") orderedTeams[2] = element.teams[i];
+                    else if(element.teams[i].station == "Blue1") orderedTeams[3] = element.teams[i];
+                    else if(element.teams[i].station == "Blue2") orderedTeams[4] = element.teams[i];
+                    else if(element.teams[i].station == "Blue3") orderedTeams[5] = element.teams[i];
+                }
+                console.log(orderedTeams);
+                if(orderedTeams.length>5){
+                    this.matches[ind] = new threeTeamMatch(element.description, element.series, element.matchNumber, element.tournamentLevel, "Upcoming", this.fieldNumber,
+                    orderedTeams[0], orderedTeams[1], orderedTeams[2], null, //red
+                    orderedTeams[3], orderedTeams[4], orderedTeams[5], null); //blue
                 }else{
-                    this.matches[ind] = new twoTeamMatch(element.description, "Upcoming", this.fieldNumber,
-                    element.teams[0], element.teams[1], null, //red
-                    element.teams[2], element.teams[3], null); //blue
+                    this.matches[ind] = new twoTeamMatch(element.description, element.series, element.matchNumber, element.tournamentLevel,  "Upcoming", this.fieldNumber,
+                    orderedTeams[0], orderedTeams[1], null, //red
+                    orderedTeams[3], orderedTeams[4], null); //blue
                 }
 
                 // console.log(this.matches);
