@@ -181,7 +181,12 @@ async function statusUpdate() {
       const content = document.createElement("div");
       content.className = "counter-content";
       content.style = "bottom: -110%;";
-      content.appendChild(createDivWithClassAndText("", getShortenedMatchName(next[1]) + ": Queue NOW -"));
+      if(tracker.fields.length > 1){
+        content.appendChild(createDivWithClassAndText("", getShortenedMatchName(next[1]) + ": Queue NOW - Field "+next[1].field+" -"));
+      }else{
+        content.appendChild(createDivWithClassAndText("", getShortenedMatchName(next[1]) + ": Queue NOW -"));
+      }
+     
       if (next[1].getTeamAlliance() == "red") {
         content.appendChild(createDivWithClassAndText("light-ftc-red alliance", "RED"));
       }
@@ -205,7 +210,12 @@ async function statusUpdate() {
       content.style = "bottom: -110%;";
       content.appendChild(createDivWithClassAndText("", getShortenedMatchName(next[1]) + ": Queue in"));
       content.appendChild(createDivWithClassAndText("counter led", next[0]-1));
-      content.appendChild(createDivWithClassAndText("", " rounds -"));
+      //change text for multiple fields
+      if(tracker.fields.length > 1){
+        content.appendChild(createDivWithClassAndText("", "rounds - Field "+next[1].field+" -"));
+      }else{
+        content.appendChild(createDivWithClassAndText("", "rounds -"));
+      }      
       if (next[1].getTeamAlliance() == "red") content.appendChild(createDivWithClassAndText("light-ftc-red alliance", "RED"));
       else if (next[1].getTeamAlliance() == "blue") content.appendChild(createDivWithClassAndText("light-ftc-blue alliance", "BLUE"));
       //animation
