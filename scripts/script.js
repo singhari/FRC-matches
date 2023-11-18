@@ -88,22 +88,23 @@ function ranksToKeyPairs() {
 //returns false if at least one of the API calls failed.
 //lots of the commented out stuff is to replace the live data with fake data for testing
 async function getData() {
-  // teamSchedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/" + window.evCode + "?teamNumber=" + team });
-  // const scheduleQual = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/" + window.evCode + "?tournamentLevel=qual" });
-  // const schedulePlayoff = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/schedule/" + window.evCode + "?tournamentLevel=playoff" });
-  // allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/matches/" + window.evCode });
-  // rankResponse = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2022/rankings/" + window.evCode });
-  teamSchedule = await fetch("/testTeamSchedule.json").then(response => response.json());
-  allSchedule = await fetch("/testAllSchedule.json").then(response => response.json());
-  allSchedule = allSchedule.schedule;
-  allResults = await fetch("/testMatchResults.json").then(response => response.json());
-  rankResponse = {"Rankings": []};
-  // if (teamSchedule.error != undefined || scheduleQual.error != undefined || schedulePlayoff.error != undefined || allResults.error != undefined || rankResponse.error != undefined) {
-  //   updateTrackerFields("An API error occurred.", "Retrying in 30 seconds...", "X", null, "#f12718");
-  //   return false;
-  // }
-  // allSchedule = scheduleQual.schedule.concat(schedulePlayoff.schedule);
-
+  teamSchedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2023/schedule/" + window.evCode + "?teamNumber=" + team });
+  const scheduleQual = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2023/schedule/" + window.evCode + "?tournamentLevel=qual" });
+  const schedulePlayoff = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2023/schedule/" + window.evCode + "?tournamentLevel=playoff" });
+  allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2023/matches/" + window.evCode });
+  rankResponse = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2023/rankings/" + window.evCode });
+  // teamSchedule = await fetch("/testTeamSchedule.json").then(response => response.json());
+  // allSchedule = await fetch("/testAllSchedule.json").then(response => response.json());
+  // allSchedule = allSchedule.schedule;
+  // allResults = await fetch("/testMatchResults.json").then(response => response.json());
+  // rankResponse = {"Rankings": []};
+  if (teamSchedule.error != undefined || scheduleQual.error != undefined || schedulePlayoff.error != undefined || allResults.error != undefined || rankResponse.error != undefined) {
+    document.getElementById("error-message").style.display = "block";
+    return false;
+  }else{
+    document.getElementById("error-message").style.display = "none";
+  }
+  allSchedule = scheduleQual.schedule.concat(schedulePlayoff.schedule);
 }
 
 //calculates distance, speed, etc for the animation, or turns it off if it all fits

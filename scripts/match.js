@@ -70,23 +70,49 @@ export class twoTeamMatch {
   updateRankings(rankList) {
     if (this.hasElements) {
       //elementA.match-stat(1).team-index(#).rank-name-div(1)
-      this.elementA.children[1].children[0].children[1].textContent = 
-        "#"+rankList[this.redTeamA.teamNumber]+" | "+this.redTeamA.teamName;
-      this.elementA.children[1].children[2].children[1].textContent = 
-        "#"+rankList[this.redTeamB.teamNumber]+" | "+this.redTeamB.teamName;
-      this.elementA.children[1].children[4].children[1].textContent = 
-        "#"+rankList[this.blueTeamA.teamNumber]+" | "+this.blueTeamA.teamName;
-      this.elementA.children[1].children[6].children[1].textContent = 
-        "#"+rankList[this.blueTeamB.teamNumber]+" | "+this.blueTeamB.teamName;
+      if(rankList[this.redTeamA.teamNumber] != null){
+        this.elementA.children[1].children[0].children[1].textContent = 
+          "#"+rankList[this.redTeamA.teamNumber]+" | "+this.redTeamA.teamName;
+        this.elementB.children[1].children[0].children[1].textContent = 
+          "#"+rankList[this.redTeamA.teamNumber]+" | "+this.redTeamA.teamName;
+      }
+      else {
+        this.elementA.children[1].children[0].children[1].textContent = this.redTeamA.teamName;
+        this.elementB.children[1].children[0].children[1].textContent = this.redTeamA.teamName;
+      }
 
-      this.elementB.children[1].children[0].children[1].textContent = 
-        "#"+rankList[this.redTeamA.teamNumber]+" | "+this.redTeamA.teamName;
-      this.elementB.children[1].children[2].children[1].textContent = 
-        "#"+rankList[this.redTeamB.teamNumber]+" | "+this.redTeamB.teamName;
-      this.elementB.children[1].children[4].children[1].textContent = 
-        "#"+rankList[this.blueTeamA.teamNumber]+" | "+this.blueTeamA.teamName;
-      this.elementB.children[1].children[6].children[1].textContent = 
-        "#"+rankList[this.blueTeamB.teamNumber]+" | "+this.blueTeamB.teamName;
+      if(rankList[this.redTeamB.teamNumber] != null){
+        this.elementA.children[1].children[2].children[1].textContent = 
+          "#"+rankList[this.redTeamB.teamNumber]+" | "+this.redTeamB.teamName;
+        this.elementB.children[1].children[2].children[1].textContent = 
+          "#"+rankList[this.redTeamB.teamNumber]+" | "+this.redTeamB.teamName;
+      }
+      else {
+        this.elementA.children[1].children[2].children[1].textContent = this.redTeamB.teamName;
+        this.elementB.children[1].children[2].children[1].textContent = this.redTeamB.teamName;
+      }
+
+      if(rankList[this.blueTeamA.teamNumber] != null){
+        this.elementA.children[1].children[4].children[1].textContent = 
+          "#"+rankList[this.blueTeamA.teamNumber]+" | "+this.blueTeamA.teamName;
+        this.elementB.children[1].children[4].children[1].textContent = 
+          "#"+rankList[this.blueTeamA.teamNumber]+" | "+this.blueTeamA.teamName;
+      }
+      else {
+        this.elementA.children[1].children[4].children[1].textContent = this.blueTeamA.teamName;
+        this.elementB.children[1].children[4].children[1].textContent = this.blueTeamA.teamName;
+      }
+
+      if(rankList[this.blueTeamB.teamNumber] != null){
+        this.elementA.children[1].children[6].children[1].textContent = 
+          "#"+rankList[this.blueTeamB.teamNumber]+" | "+this.blueTeamB.teamName;
+        this.elementB.children[1].children[6].children[1].textContent = 
+          "#"+rankList[this.blueTeamB.teamNumber]+" | "+this.blueTeamB.teamName;
+      }
+      else {
+        this.elementA.children[1].children[6].children[1].textContent = this.blueTeamB.teamName;
+        this.elementB.children[1].children[6].children[1].textContent = this.blueTeamB.teamName;
+      }
 
       // this.elementB.children[1].children[0].children[0].textContent = 
       //   "#"+rankList[this.elementA.children[1].children[0].children[1].textContent];

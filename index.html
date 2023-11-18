@@ -18,7 +18,6 @@
 <body>
   <div id="container">
     <div id = "top-bar" class="w3-display-container w3-black" >
-      
       <div class="w3-display-left logo" style="max-height: 70%;margin-left:1rem;">
         <div id="dt" class="led">
           <span class="equal">H</span><span class="equal">H</span>:<span class="equal">M</span><span class="equal">M</span>:<span class="equal">S</span><span class="equal">S</span>
@@ -31,6 +30,10 @@
         <b style="font-size: 25px;" id="meet-details"></b>
       </div>
       <img class="w3-display-right logo" src="images/ftc_logo.png" style="max-height: 65%;margin-right:2rem;">
+      <div id="error-message" style="display: none;">
+        <div>Error: Failed to fetch</div>
+        <span>Data hasn't been refreshed. Retrying in 30 seconds...</span>
+      </div>
     </div>
 
     <div id="middle-content">
