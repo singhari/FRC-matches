@@ -45,7 +45,7 @@ async function initialize() {
   updateScroll();
   autoRefresh = setInterval(() => {
     updateEverything();
-  }, 5000);
+  }, 20000);
 }
 
 //main refresh
