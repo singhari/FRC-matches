@@ -78,7 +78,7 @@ async function updateEverything() {
 //makes it so you can feed in team number to array and get out the rank (ex: ranks["7159"]==11)
 function ranksToKeyPairs() {
   var resp = {};
-  rankResponse.Rankings.forEach(element => {
+  rankResponse.rankings.forEach(element => {
     resp[element.teamNumber.toString()] = element.rank;
   });
   return resp;
