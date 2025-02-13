@@ -92,7 +92,7 @@ async function getData() {
   const scheduleQual = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2024/schedule/" + window.evCode + "?tournamentLevel=qual" });
   const schedulePlayoff = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2024/schedule/" + window.evCode + "?tournamentLevel=playoff" });
   allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2024/matches/" + window.evCode });
-  rankResponse = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2023/rankings/" + window.evCode });
+  rankResponse = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2024/rankings/" + window.evCode });
   // teamSchedule = await fetch("/testTeamSchedule.json").then(response => response.json());
   // allSchedule = await fetch("/testAllSchedule.json").then(response => response.json());
   // allSchedule = allSchedule.schedule;
