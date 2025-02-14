@@ -3,7 +3,7 @@ chrome.runtime.onMessage.addListener(
     function (data, sender, sendResponse) {
         const prom = fetch(data.url, {
             headers: {
-                authorization: "Basic " + btoa("karsteny:3298DEAE-A59D-487C-8092-3C4B1C63ECE3")
+                authorization: "Basic " + btoa("USERNAME:AUTHTOKEN")
             },
             cache: "no-store"
         })
