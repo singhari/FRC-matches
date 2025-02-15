@@ -1,15 +1,15 @@
 # FTC-matches
+Download the latest release(found in the [release tab](https://github.com/Team-7159-RoboRavens/FTC-matches/releases))
 
 ### How 2 Install
 
 ##### Step 0:
-Once you have downloade the latest release(found in the [release tab](https://github.com/Team-7159-RoboRavens/FTC-matches/releases))
+Make sure to have your *FIRST* API username and token ready. If you dont have one, [Request API Access Here](https://frc-events.firstinspires.org/services/api)
 
-Then go into [`scripts/service.js`](/scripts/service.js#L6) and replace USERNAME and AUTHTOKEN(line with the username and token with the username and token you recieve from the FIRST API.
 **WARNING:** The code will not work until you replace the username and token.
 
 ##### Step 1: 
-Navigate to the Repository's home page and download the codeas a zip. Make sure to extract the file in your computer's file manager!
+Once you go the latest release, make sure to go into [`scripts/service.js`](/scripts/service.js#L6) and replace USERNAME and AUTHTOKEN(line with the username and token with the username and token you recieve from the FIRST API. 
 
 ##### Step 2: 
 Go to chrome://extensions. Make sure "Developer Mode" is turned on.
