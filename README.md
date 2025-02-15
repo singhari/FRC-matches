@@ -2,6 +2,9 @@
 
 ### How 2 Install
 
+##### Step 0:
+Go into service.js and replace USERNAME and AUTHTOKEN with the username and token with the username and token you recieve from the FIRST API. **WARNING:** The code will not work until you replace the username and token.
+
 ##### Step 1: 
 Download/clone all of the files from this repository into a single folder. 
 
@@ -31,4 +34,4 @@ Input a team number and event code to be displayed and click Open.
 
 > Note: Currently an event MUST be from the 2024-2025 season.
 
-Event codes can be found at (https://ftc-events.firstinspires.org). You can type your team number in the search bar at the top and select an event you want (again, currently only from the 2023 season).
+Event codes can be found at (https://ftc-events.firstinspires.org). You can type your team number in the search bar at the top and select an event you want (again, currently only from the 2024-2025 season).
