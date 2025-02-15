@@ -3,7 +3,7 @@
 ### How 2 Install
 
 ##### Step 0:
-***FORK THIS REPO***
+Once you have downloade the latest release(found in the [release tab](https://github.com/Team-7159-RoboRavens/FTC-matches/releases))
 
 Then go into [`scripts/service.js`](/scripts/service.js#L6) and replace USERNAME and AUTHTOKEN(line with the username and token with the username and token you recieve from the FIRST API.
 **WARNING:** The code will not work until you replace the username and token.
