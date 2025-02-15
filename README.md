@@ -1,7 +1,7 @@
 # FTC-matches
 Download the latest release(found in the [release tab](https://github.com/Team-7159-RoboRavens/FTC-matches/releases))
 
-### How 2 Install
+### How to Install FTC Matches
 
 ##### Step 0:
 Make sure to have your *FIRST* API username and token ready. If you dont have one, [Request API Access Here](https://frc-events.firstinspires.org/services/api)
