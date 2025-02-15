@@ -3,10 +3,13 @@
 ### How 2 Install
 
 ##### Step 0:
-Go into service.js and replace USERNAME and AUTHTOKEN with the username and token with the username and token you recieve from the FIRST API. **WARNING:** The code will not work until you replace the username and token.
+***FORK THIS REPO***
+
+Then go into [`scripts/service.js`](/scripts/service.js#L6) and replace USERNAME and AUTHTOKEN(line with the username and token with the username and token you recieve from the FIRST API.
+**WARNING:** The code will not work until you replace the username and token.
 
 ##### Step 1: 
-Download/clone all of the files from this repository into a single folder. 
+Navigate to the Repository's home page and download the codeas a zip. Make sure to extract the file in your computer's file manager!
 
 ##### Step 2: 
 Go to chrome://extensions. Make sure "Developer Mode" is turned on.
@@ -32,6 +35,6 @@ Input a team number and event code to be displayed and click Open.
 
 ![image](https://user-images.githubusercontent.com/42128680/210491730-bceaf6fe-7910-49eb-8b68-a8f726ba23cf.png)
 
-> Note: Currently an event MUST be from the 2024-2025 season.
+**> Note: Currently an event MUST be from the 2024-2025 season.**
 
 Event codes can be found at (https://ftc-events.firstinspires.org). You can type your team number in the search bar at the top and select an event you want (again, currently only from the 2024-2025 season).
