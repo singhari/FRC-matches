@@ -4,7 +4,7 @@ Download the latest release(found in the [release tab](https://github.com/Team-7
 ### How to Install FTC Matches
 
 ##### Step 0:
-Make sure to have your *FIRST* API username and token ready. If you dont have one, [Request API Access Here](https://frc-events.firstinspires.org/services/api)
+Make sure to have your *FIRST* API username and token ready. If you dont have one, [Request API Access Here](https://ftc-events.firstinspires.org/services/api)
 
 **WARNING:** The code will not work until you replace the username and token.
 
