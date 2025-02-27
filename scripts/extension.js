@@ -20,8 +20,8 @@ async function openSite(){
     codeErr.textContent = "Event code is blank."
   }
   if(!bad){
-    var event = await chrome.runtime.sendMessage({ url: "https://frc-api.firstinspires.org/v2.0/2025/events?eventCode="+code.value.trim() })
-    var tm = await chrome.runtime.sendMessage({ url: "https://frc-api.firstinspires.org/v2.0/2025/teams?teamNumber="+team.value.trim() })
+    var event = await chrome.runtime.sendMessage({ url: "https://frc-api.firstinspires.org/v2.0/2024/events?eventCode="+code.value.trim() })
+    var tm = await chrome.runtime.sendMessage({ url: "https://frc-api.firstinspires.org/v2.0/2024/teams?teamNumber="+team.value.trim() })
     if(tm.error != undefined){
       bad = true;
       if(tm.error == "400") {
