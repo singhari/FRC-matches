@@ -88,11 +88,11 @@ function ranksToKeyPairs() {
 //returns false if at least one of the API calls failed.
 //lots of the commented out stuff is to replace the live data with fake data for testing
 async function getData() {
-  teamSchedule = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2024/schedule/" + window.evCode + "?teamNumber=" + team });
-  const scheduleQual = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2024/schedule/" + window.evCode + "?tournamentLevel=qual" });
-  const schedulePlayoff = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2024/schedule/" + window.evCode + "?tournamentLevel=playoff" });
-  allResults = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2024/matches/" + window.evCode });
-  rankResponse = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2024/rankings/" + window.evCode });
+  teamSchedule = await chrome.runtime.sendMessage({ url: "https://frc-api.firstinspires.org/v2.0/2024/schedule/" + window.evCode + "?teamNumber=" + team });
+  const scheduleQual = await chrome.runtime.sendMessage({ url: "https://frc-api.firstinspires.org/v2.0/2024/schedule/" + window.evCode + "?tournamentLevel=qual" });
+  const schedulePlayoff = await chrome.runtime.sendMessage({ url: "https://frc-api.firstinspires.org/v2.0/2024/schedule/" + window.evCode + "?tournamentLevel=playoff" });
+  allResults = await chrome.runtime.sendMessage({ url: "https://frc-api.firstinspires.org/v2.0/2024/matches/" + window.evCode });
+  rankResponse = await chrome.runtime.sendMessage({ url: "https://frc-api.firstinspires.org/v2.0/2024/rankings/" + window.evCode });
   // teamSchedule = await fetch("/testTeamSchedule.json").then(response => response.json());
   // allSchedule = await fetch("/testAllSchedule.json").then(response => response.json());
   // allSchedule = allSchedule.schedule;
