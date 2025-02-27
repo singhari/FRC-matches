@@ -43,7 +43,8 @@ async function openSite(){
       wind.num = team.value.trim();
       wind.teamName = tm.teams[0].nameShort;
       wind.evCode = code.value.trim();
-      wind.evName = event.events[0].name;
+      //wind.evName = event.events[0].name;
+      wind.evName = "event";
     }
   }
   // const wind = window.open("/index.html", "", "popup");
